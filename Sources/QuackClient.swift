@@ -5,14 +5,29 @@ import SwiftyJSON
 public class QuackClient {
 
 	let url: URL
-
-	public init(url: URL) {
+    let manager: Alamofire.SessionManager
+    
+    public init(url: URL,
+                timeoutInterval: TimeInterval = 5,
+                serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
 		self.url = url
+        
+        // Setup Alamofire
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForResource = timeoutInterval
+        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        
+        self.manager = Alamofire.SessionManager(configuration: configuration,
+                                                serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
 	}
 
-	public init?(urlString: String) {
+	convenience public init?(urlString: String,
+	                         timeoutInterval: TimeInterval = 5,
+	                         serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
 		if let url = URL(string: urlString) {
-			self.url = url
+            self.init(url: url,
+                      timeoutInterval: timeoutInterval,
+                      serverTrustPolicies: serverTrustPolicies)
 		} else {
 			return nil
 		}
@@ -49,12 +64,15 @@ public class QuackClient {
     
     private func respondWithJSON(method: HTTPMethod = .get,
                                  path: String,
-                                 params: [String: Any] = [:]) -> JSON? {
+                                 params: [String: Any] = [:],
+                                 headers: [String: String] = [:]) -> JSON? {
         
         let url = self.url.appendingPathComponent(path)
         let response = Alamofire.request(url,
                                          method: method,
-                                         parameters: params).responseData()
+                                         parameters: params,
+                                         headers: headers
+                                         ).responseData()
         if let jsonData = response.result.value {
             return JSON(data: jsonData)
         }

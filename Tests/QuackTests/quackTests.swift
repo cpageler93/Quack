@@ -14,6 +14,13 @@ class GithubQuackTests: XCTestCase {
         let repos = github.repositories(owner: "cpageler93")
     	XCTAssertGreaterThan(repos?.count ?? 0, 0)
     }
+    
+    func testGithubRepositoryBranches() {
+        let github = GithubClient()
+        let repo = GithubRepository("cpageler93/Quack")
+        let branches = github.repositoryBranches(repository: repo)
+        XCTAssertGreaterThan(branches?.count ?? 0, 0)
+    }
 
     func testDummyAccountServiceWithValidURL() {
     	let service = DummyAccountServiceClient(urlString: "https://hellothisisurl.com")
