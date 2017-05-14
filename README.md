@@ -14,8 +14,8 @@ class GithubClient: QuackClient {
 
     public func repositories(owner: String) -> [GithubRepository]? {
 	return respondWithArray(method: .get,
-				path: "/users/\(owner)/repos",
-				model: GithubRepository.self)
+							path: "/users/\(owner)/repos",
+							model: GithubRepository.self)
 	}
 }
 
@@ -23,7 +23,7 @@ class GithubRepository: QuackModel {
 	var name: String?
 
     required init?(json: JSON) {
-	self.name = json["name"].string
+		self.name = json["name"].string
     }
 }
 ```
