@@ -13,9 +13,9 @@ class GithubClient: QuackClient {
     }
 
     public func repositories(owner: String) -> [GithubRepository]? {
-    return respondWithArray(method: .get,
-                            path: "/users/\(owner)/repos",
-                            model: GithubRepository.self)
+        return respondWithArray(method: .get,
+                                path: "/users/\(owner)/repos",
+                                model: GithubRepository.self)
     }
 }
 
