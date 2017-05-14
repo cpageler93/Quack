@@ -1,0 +1,682 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		OBJ_47 /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* AFError.swift */; };
+		OBJ_48 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* Alamofire.swift */; };
+		OBJ_49 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* DispatchQueue+Alamofire.swift */; };
+		OBJ_50 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* MultipartFormData.swift */; };
+		OBJ_51 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* NetworkReachabilityManager.swift */; };
+		OBJ_52 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Notifications.swift */; };
+		OBJ_53 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* ParameterEncoding.swift */; };
+		OBJ_54 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* Request.swift */; };
+		OBJ_55 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* Response.swift */; };
+		OBJ_56 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* ResponseSerialization.swift */; };
+		OBJ_57 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Result.swift */; };
+		OBJ_58 /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* ServerTrustPolicy.swift */; };
+		OBJ_59 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* SessionDelegate.swift */; };
+		OBJ_60 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* SessionManager.swift */; };
+		OBJ_61 /* TaskDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* TaskDelegate.swift */; };
+		OBJ_62 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* Timeline.swift */; };
+		OBJ_63 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* Validation.swift */; };
+		OBJ_70 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* SwiftyJSON.swift */; };
+		OBJ_77 /* Alamofire+Synchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* Alamofire+Synchronous.swift */; };
+		OBJ_78 /* QuackClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* QuackClient.swift */; };
+		OBJ_79 /* QuackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* QuackModel.swift */; };
+		OBJ_81 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* Alamofire.framework */; };
+		OBJ_82 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* SwiftyJSON.framework */; };
+		OBJ_90 /* DummyAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* DummyAccountService.swift */; };
+		OBJ_91 /* GithubQuack.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* GithubQuack.swift */; };
+		OBJ_92 /* quackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* quackTests.swift */; };
+		OBJ_94 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* Alamofire.framework */; };
+		OBJ_95 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* SwiftyJSON.framework */; };
+		OBJ_96 /* Quack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* Quack.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5902101E1EC8B9BD00C929D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_42;
+			remoteInfo = Alamofire;
+		};
+		5902101F1EC8B9BD00C929D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_65;
+			remoteInfo = SwiftyJSON;
+		};
+		590210201EC8B9BD00C929D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_42;
+			remoteInfo = Alamofire;
+		};
+		590210211EC8B9BD00C929D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_65;
+			remoteInfo = SwiftyJSON;
+		};
+		590210221EC8B9BD00C929D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_72;
+			remoteInfo = Quack;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		OBJ_10 /* QuackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuackModel.swift; sourceTree = "<group>"; };
+		OBJ_13 /* DummyAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAccountService.swift; sourceTree = "<group>"; };
+		OBJ_14 /* GithubQuack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubQuack.swift; sourceTree = "<group>"; };
+		OBJ_15 /* quackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quackTests.swift; sourceTree = "<group>"; };
+		OBJ_18 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		OBJ_20 /* AFError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFError.swift; sourceTree = "<group>"; };
+		OBJ_21 /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
+		OBJ_22 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
+		OBJ_23 /* MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
+		OBJ_24 /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachabilityManager.swift; sourceTree = "<group>"; };
+		OBJ_25 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		OBJ_26 /* ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
+		OBJ_27 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_28 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		OBJ_29 /* ResponseSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseSerialization.swift; sourceTree = "<group>"; };
+		OBJ_30 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		OBJ_31 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTrustPolicy.swift; sourceTree = "<group>"; };
+		OBJ_32 /* SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
+		OBJ_33 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		OBJ_34 /* TaskDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDelegate.swift; sourceTree = "<group>"; };
+		OBJ_35 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		OBJ_36 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		OBJ_38 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_39 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_40 /* Quack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Quack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_41 /* QuackTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = QuackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_8 /* Alamofire+Synchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alamofire+Synchronous.swift"; sourceTree = "<group>"; };
+		OBJ_9 /* QuackClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuackClient.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_71 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_80 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_81 /* Alamofire.framework in Frameworks */,
+				OBJ_82 /* SwiftyJSON.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_93 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_94 /* Alamofire.framework in Frameworks */,
+				OBJ_95 /* SwiftyJSON.framework in Frameworks */,
+				OBJ_96 /* Quack.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_11 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_12 /* QuackTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_12 /* QuackTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_13 /* DummyAccountService.swift */,
+				OBJ_14 /* GithubQuack.swift */,
+				OBJ_15 /* quackTests.swift */,
+			);
+			name = QuackTests;
+			path = Tests/QuackTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_16 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_17 /* SwiftyJSON 3.1.4 */,
+				OBJ_19 /* Alamofire 4.4.0 */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		OBJ_17 /* SwiftyJSON 3.1.4 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_18 /* SwiftyJSON.swift */,
+			);
+			name = "SwiftyJSON 3.1.4";
+			path = ".build/checkouts/SwiftyJSON.git-3043514560129222422/Source";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_19 /* Alamofire 4.4.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_20 /* AFError.swift */,
+				OBJ_21 /* Alamofire.swift */,
+				OBJ_22 /* DispatchQueue+Alamofire.swift */,
+				OBJ_23 /* MultipartFormData.swift */,
+				OBJ_24 /* NetworkReachabilityManager.swift */,
+				OBJ_25 /* Notifications.swift */,
+				OBJ_26 /* ParameterEncoding.swift */,
+				OBJ_27 /* Request.swift */,
+				OBJ_28 /* Response.swift */,
+				OBJ_29 /* ResponseSerialization.swift */,
+				OBJ_30 /* Result.swift */,
+				OBJ_31 /* ServerTrustPolicy.swift */,
+				OBJ_32 /* SessionDelegate.swift */,
+				OBJ_33 /* SessionManager.swift */,
+				OBJ_34 /* TaskDelegate.swift */,
+				OBJ_35 /* Timeline.swift */,
+				OBJ_36 /* Validation.swift */,
+			);
+			name = "Alamofire 4.4.0";
+			path = ".build/checkouts/Alamofire.git-6801331143877184500/Source";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_37 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_38 /* Alamofire.framework */,
+				OBJ_39 /* SwiftyJSON.framework */,
+				OBJ_40 /* Quack.framework */,
+				OBJ_41 /* QuackTests.xctest */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_5 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Sources */,
+				OBJ_11 /* Tests */,
+				OBJ_16 /* Dependencies */,
+				OBJ_37 /* Products */,
+			);
+			name = "";
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* Alamofire+Synchronous.swift */,
+				OBJ_9 /* QuackClient.swift */,
+				OBJ_10 /* QuackModel.swift */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		OBJ_42 /* Alamofire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_43 /* Build configuration list for PBXNativeTarget "Alamofire" */;
+			buildPhases = (
+				OBJ_46 /* Sources */,
+				OBJ_64 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Alamofire;
+			productName = Alamofire;
+			productReference = OBJ_38 /* Alamofire.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		OBJ_65 /* SwiftyJSON */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_66 /* Build configuration list for PBXNativeTarget "SwiftyJSON" */;
+			buildPhases = (
+				OBJ_69 /* Sources */,
+				OBJ_71 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftyJSON;
+			productName = SwiftyJSON;
+			productReference = OBJ_39 /* SwiftyJSON.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		OBJ_72 /* Quack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_73 /* Build configuration list for PBXNativeTarget "Quack" */;
+			buildPhases = (
+				OBJ_76 /* Sources */,
+				OBJ_80 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_83 /* PBXTargetDependency */,
+				OBJ_84 /* PBXTargetDependency */,
+			);
+			name = Quack;
+			productName = Quack;
+			productReference = OBJ_40 /* Quack.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		OBJ_85 /* QuackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_86 /* Build configuration list for PBXNativeTarget "QuackTests" */;
+			buildPhases = (
+				OBJ_89 /* Sources */,
+				OBJ_93 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_97 /* PBXTargetDependency */,
+				OBJ_98 /* PBXTargetDependency */,
+				OBJ_99 /* PBXTargetDependency */,
+			);
+			name = QuackTests;
+			productName = QuackTests;
+			productReference = OBJ_41 /* QuackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Quack" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_37 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				OBJ_42 /* Alamofire */,
+				OBJ_65 /* SwiftyJSON */,
+				OBJ_72 /* Quack */,
+				OBJ_85 /* QuackTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_47 /* AFError.swift in Sources */,
+				OBJ_48 /* Alamofire.swift in Sources */,
+				OBJ_49 /* DispatchQueue+Alamofire.swift in Sources */,
+				OBJ_50 /* MultipartFormData.swift in Sources */,
+				OBJ_51 /* NetworkReachabilityManager.swift in Sources */,
+				OBJ_52 /* Notifications.swift in Sources */,
+				OBJ_53 /* ParameterEncoding.swift in Sources */,
+				OBJ_54 /* Request.swift in Sources */,
+				OBJ_55 /* Response.swift in Sources */,
+				OBJ_56 /* ResponseSerialization.swift in Sources */,
+				OBJ_57 /* Result.swift in Sources */,
+				OBJ_58 /* ServerTrustPolicy.swift in Sources */,
+				OBJ_59 /* SessionDelegate.swift in Sources */,
+				OBJ_60 /* SessionManager.swift in Sources */,
+				OBJ_61 /* TaskDelegate.swift in Sources */,
+				OBJ_62 /* Timeline.swift in Sources */,
+				OBJ_63 /* Validation.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_69 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_70 /* SwiftyJSON.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_76 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_77 /* Alamofire+Synchronous.swift in Sources */,
+				OBJ_78 /* QuackClient.swift in Sources */,
+				OBJ_79 /* QuackModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_90 /* DummyAccountService.swift in Sources */,
+				OBJ_91 /* GithubQuack.swift in Sources */,
+				OBJ_92 /* quackTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_42 /* Alamofire */;
+			targetProxy = 5902101E1EC8B9BD00C929D0 /* PBXContainerItemProxy */;
+		};
+		OBJ_84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_65 /* SwiftyJSON */;
+			targetProxy = 5902101F1EC8B9BD00C929D0 /* PBXContainerItemProxy */;
+		};
+		OBJ_97 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_42 /* Alamofire */;
+			targetProxy = 590210201EC8B9BD00C929D0 /* PBXContainerItemProxy */;
+		};
+		OBJ_98 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_65 /* SwiftyJSON */;
+			targetProxy = 590210211EC8B9BD00C929D0 /* PBXContainerItemProxy */;
+		};
+		OBJ_99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_72 /* Quack */;
+			targetProxy = 590210221EC8B9BD00C929D0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		OBJ_44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/Alamofire_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Alamofire;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = Alamofire;
+			};
+			name = Debug;
+		};
+		OBJ_45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/Alamofire_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Alamofire;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = Alamofire;
+			};
+			name = Release;
+		};
+		OBJ_67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/SwiftyJSON_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyJSON;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = SwiftyJSON;
+			};
+			name = Debug;
+		};
+		OBJ_68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/SwiftyJSON_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SwiftyJSON;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = SwiftyJSON;
+			};
+			name = Release;
+		};
+		OBJ_74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/Quack_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Quack;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = Quack;
+			};
+			name = Debug;
+		};
+		OBJ_75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/Quack_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Quack;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGET_NAME = Quack;
+			};
+			name = Release;
+		};
+		OBJ_87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/QuackTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				TARGET_NAME = QuackTests;
+			};
+			name = Debug;
+		};
+		OBJ_88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Quack.xcodeproj/QuackTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				TARGET_NAME = QuackTests;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_2 /* Build configuration list for PBXProject "Quack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_43 /* Build configuration list for PBXNativeTarget "Alamofire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_44 /* Debug */,
+				OBJ_45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_66 /* Build configuration list for PBXNativeTarget "SwiftyJSON" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_67 /* Debug */,
+				OBJ_68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_73 /* Build configuration list for PBXNativeTarget "Quack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_74 /* Debug */,
+				OBJ_75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_86 /* Build configuration list for PBXNativeTarget "QuackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_87 /* Debug */,
+				OBJ_88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
