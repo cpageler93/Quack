@@ -50,7 +50,7 @@ let github = GithubClient()
 let repos = github.repositories(owner: "cpageler93")
 switch repos {
 case .Success(let repos):
-    // do something with repos (which is kind of [GihubRepository])
+    // do something with repos (which is kind of [GithubRepository])
 case .Failure(let error):
     // handle error
 }
@@ -60,7 +60,7 @@ case .Failure(let error):
 github.repositories(owner: "cpageler93") { repos in
     switch repos {
     case .Success(let repos):
-        // do something with repos (which is kind of [GihubRepository])
+        // do something with repos (which is kind of [GithubRepository])
     case .Failure(let error):
         // handle error
     }
