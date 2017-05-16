@@ -12,10 +12,19 @@ class GithubClient: QuackClient {
        super.init(url: URL(string: "https://api.github.com")!)
     }
 
+    // synchronous
     public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
         return respondWithArray(method: .get,
                                 path: "/users/\(owner)/repos",
                                 model: GithubRepository.self)
+    }
+
+    // asynchronous
+    public func repositories(owner: String, completion: @escaping (QuackResult<[GithubRepository]>) -> (Void)) {
+        return respondWithArrayAsync(method: .get,
+                                     path: "/users/\(owner)/repos",
+                                     model: GithubRepository.self,
+                                     completion: completion)
     }
 }
 
@@ -36,6 +45,8 @@ class GithubRepository: QuackModel {
 
 ```swift
 let github = GithubClient()
+
+// synchronous
 let repos = github.repositories(owner: "cpageler93")
 switch repos {
 case .Success(let repos):
@@ -43,4 +54,16 @@ case .Success(let repos):
 case .Failure(let error):
     // handle error
 }
+
+
+// asynchronous
+github.repositories(owner: "cpageler93") { repos in
+    switch repos {
+    case .Success(let repos):
+        // do something with repos (which is kind of [GihubRepository])
+    case .Failure(let error):
+        // handle error
+    }
+}
+
 ```
