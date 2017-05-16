@@ -15,7 +15,7 @@ public enum QuackResult<T> {
     case Failure(Error)
 }
 
-public class QuackClient {
+open class QuackClient {
     
     let url: URL
     let manager: Alamofire.SessionManager

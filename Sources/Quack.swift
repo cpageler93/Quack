@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum QuackError: Error {
+public enum QuackError: Error {
     case ModelParsingError
     case JSONParsingError
     case ErrorWithName(String)
