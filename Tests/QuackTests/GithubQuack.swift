@@ -6,11 +6,20 @@ class GithubClient: QuackClient {
     init() {
        super.init(url: URL(string: "https://api.github.com")!)
     }
+    
+    // MARK: - Repository Methods
 
     public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
         return respondWithArray(method: .get,
                                 path: "/users/\(owner)/repos",
                                 model: GithubRepository.self)
+    }
+    
+    public func repositories(owner: String, completion: @escaping (QuackResult<[GithubRepository]>) -> (Void)) {
+        return respondWithArrayAsync(method: .get,
+                                     path: "/users/\(owner)/repos",
+                                     model: GithubRepository.self,
+                                     completion: completion)
     }
 
     public func repositoryBranches(repository: GithubRepository) -> QuackResult<[GithubRepositoryBranch]> {

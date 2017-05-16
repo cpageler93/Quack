@@ -20,6 +20,22 @@ class GithubQuackTests: XCTestCase {
         }
     }
     
+    func testGithubRepositoryAsync() {
+        let github = GithubClient()
+        let repositoryExpectation = self.expectation(description: "Github Repositories")
+        github.repositories(owner: "cpageler93") { repos in
+            switch repos {
+            case .Success(let repos):
+                XCTAssertGreaterThan(repos.count, 0)
+            case .Failure(let error):
+                XCTAssertNil(error)
+            }
+            repositoryExpectation.fulfill()
+        }
+        
+        self.waitForExpectations(timeout: 15, handler: nil)
+    }
+    
     func testGithubRepositoryBranches() {
         let github = GithubClient()
         let repo = GithubRepository("cpageler93/Quack")

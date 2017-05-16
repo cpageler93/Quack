@@ -48,20 +48,17 @@ public class QuackClient {
        }
     }
     
-    // MARK: - Synchronous response
+    // MARK: - Synchronous Response
     
     public func respond<Model: QuackModel>(method: HTTPMethod = .get,
                                            path: String,
                                            params: [String: Any] = [:],
+                                           headers: [String: String] = [:],
                                            model: Model.Type) -> QuackResult<Model> {
-        let result = respondWithJSON(method: method, path: path, params: params)
+        let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
         switch result {
         case .Success(let json):
-            if let model = Model(json: json) {
-                return QuackResult.Success(model)
-            } else {
-                return QuackResult.Failure(QuackError.ModelParsingError)
-            }
+            return modelFromJSON(json: json)
         case .Failure(let error):
             return QuackResult.Failure(error)
         }
@@ -70,21 +67,12 @@ public class QuackClient {
     public func respondWithArray<Model: QuackModel>(method: HTTPMethod = .get,
                                                     path: String,
                                                     params: [String: Any] = [:],
+                                                    headers: [String: String] = [:],
                                                     model: Model.Type) -> QuackResult<[Model]> {
-        let result = respondWithJSON(method: method, path: path, params: params)
+        let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
         switch result {
         case .Success(let json):
-            if let jsonArray = json.array {
-                var models: [Model] = []
-                for jsonObject in jsonArray {
-                    if let model = Model(json: jsonObject) {
-                        models.append(model)
-                    }
-                }
-                return QuackResult.Success(models)
-            } else {
-                return QuackResult.Failure(QuackError.JSONParsingError)
-            }
+            return modelArrayFromJSON(json: json)
         case .Failure(let error):
             return QuackResult.Failure(error)
         }
@@ -106,6 +94,81 @@ public class QuackClient {
             return QuackResult.Success(JSON(data: jsonData))
         case .failure(let error):
             return QuackResult.Failure(error)
+        }
+    }
+    
+    // MARK: - Asynchronous Response
+    
+    public func respondAsync<Model: QuackModel>(method: HTTPMethod = .get,
+                                                path: String,
+                                                params: [String: Any] = [:],
+                                                model: Model.Type,
+                                                headers: [String: String] = [:],
+                                                completion: @escaping (QuackResult<Model>) -> (Void)) {
+        respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
+            switch result {
+            case .Success(let json):
+                completion(self.modelFromJSON(json: json))
+            case .Failure(let error):
+                completion(QuackResult.Failure(error))
+            }
+        }
+    }
+    
+    public func respondWithArrayAsync<Model: QuackModel>(method: HTTPMethod = .get,
+                                                         path: String,
+                                                         params: [String: Any] = [:],
+                                                         model: Model.Type,
+                                                         headers: [String: String] = [:],
+                                                         completion: @escaping (QuackResult<[Model]>) -> (Void)) {
+        respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
+            switch result {
+            case .Success(let json):
+                completion(self.modelArrayFromJSON(json: json))
+            case .Failure(let error):
+                completion(QuackResult.Failure(error))
+            }
+        }
+    }
+    
+    private func respondWithJSONAsync(method: HTTPMethod = .get,
+                                      path: String,
+                                      params: [String: Any] = [:],
+                                      headers: [String: String] = [:],
+                                      completion: @escaping (QuackResult<JSON>) -> (Void)) {
+        
+        let url = self.url.appendingPathComponent(path)
+        Alamofire.request(url, method: method, parameters: params, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let jsonData):
+                completion(QuackResult.Success(JSON(data: jsonData)))
+            case .failure(let error):
+                completion(QuackResult.Failure(error))
+            }
+        }
+    }
+    
+    // MARK: - JSON - Model Handling
+    
+    private func modelFromJSON<Model: QuackModel>(json: JSON) -> QuackResult<Model> {
+        if let model = Model(json: json) {
+            return QuackResult.Success(model)
+        } else {
+            return QuackResult.Failure(QuackError.ModelParsingError)
+        }
+    }
+    
+    private func modelArrayFromJSON<Model: QuackModel>(json: JSON) -> QuackResult<[Model]> {
+        if let jsonArray = json.array {
+            var models: [Model] = []
+            for jsonObject in jsonArray {
+                if let model = Model(json: jsonObject) {
+                    models.append(model)
+                }
+            }
+            return QuackResult.Success(models)
+        } else {
+            return QuackResult.Failure(QuackError.JSONParsingError)
         }
     }
 
