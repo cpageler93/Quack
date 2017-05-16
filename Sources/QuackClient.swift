@@ -17,7 +17,7 @@ public enum QuackResult<T> {
 
 open class QuackClient {
     
-    let url: URL
+    public private(set) var url: URL
     let manager: Alamofire.SessionManager
     
     // MARK: - Init
@@ -25,7 +25,7 @@ open class QuackClient {
     public init(url: URL,
                 timeoutInterval: TimeInterval = 5,
                 serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
-       self.url = url
+        self.url = url
         
         // Setup Alamofire
         let configuration = URLSessionConfiguration.default
