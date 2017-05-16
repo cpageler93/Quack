@@ -1,16 +1,31 @@
+//
+//  QuackClient.swift
+//  Quack
+//
+//  Created by Christoph on 16.05.17.
+//
+//
+
 import Foundation
 import Alamofire
 import SwiftyJSON
 
-public class QuackClient {
+public enum QuackResult<T> {
+    case Success(T)
+    case Failure(Error)
+}
 
-	let url: URL
+public class QuackClient {
+    
+    let url: URL
     let manager: Alamofire.SessionManager
+    
+    // MARK: - Init
     
     public init(url: URL,
                 timeoutInterval: TimeInterval = 5,
                 serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
-		self.url = url
+       self.url = url
         
         // Setup Alamofire
         let configuration = URLSessionConfiguration.default
@@ -19,35 +34,46 @@ public class QuackClient {
         
         self.manager = Alamofire.SessionManager(configuration: configuration,
                                                 serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
-	}
+    }
 
-	convenience public init?(urlString: String,
-	                         timeoutInterval: TimeInterval = 5,
-	                         serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
-		if let url = URL(string: urlString) {
+    convenience public init?(urlString: String,
+                             timeoutInterval: TimeInterval = 5,
+                             serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
+       if let url = URL(string: urlString) {
             self.init(url: url,
                       timeoutInterval: timeoutInterval,
                       serverTrustPolicies: serverTrustPolicies)
-		} else {
-			return nil
-		}
-	}
+       } else {
+         return nil
+       }
+    }
+    
+    // MARK: - Synchronous response
     
     public func respond<Model: QuackModel>(method: HTTPMethod = .get,
                                            path: String,
                                            params: [String: Any] = [:],
-                                           model: Model.Type) -> Model? {
-        if let json = respondWithJSON(method: method, path: path, params: params) {
-            return Model(json: json)
+                                           model: Model.Type) -> QuackResult<Model> {
+        let result = respondWithJSON(method: method, path: path, params: params)
+        switch result {
+        case .Success(let json):
+            if let model = Model(json: json) {
+                return QuackResult.Success(model)
+            } else {
+                return QuackResult.Failure(QuackError.ModelParsingError)
+            }
+        case .Failure(let error):
+            return QuackResult.Failure(error)
         }
-        return nil
     }
 
     public func respondWithArray<Model: QuackModel>(method: HTTPMethod = .get,
                                                     path: String,
                                                     params: [String: Any] = [:],
-                                                    model: Model.Type) -> [Model]? {
-        if let json = respondWithJSON(method: method, path: path, params: params) {
+                                                    model: Model.Type) -> QuackResult<[Model]> {
+        let result = respondWithJSON(method: method, path: path, params: params)
+        switch result {
+        case .Success(let json):
             if let jsonArray = json.array {
                 var models: [Model] = []
                 for jsonObject in jsonArray {
@@ -55,17 +81,19 @@ public class QuackClient {
                         models.append(model)
                     }
                 }
-                return models
+                return QuackResult.Success(models)
+            } else {
+                return QuackResult.Failure(QuackError.JSONParsingError)
             }
+        case .Failure(let error):
+            return QuackResult.Failure(error)
         }
-        
-        return nil
-	}
+    }
     
     private func respondWithJSON(method: HTTPMethod = .get,
                                  path: String,
                                  params: [String: Any] = [:],
-                                 headers: [String: String] = [:]) -> JSON? {
+                                 headers: [String: String] = [:]) -> QuackResult<JSON> {
         
         let url = self.url.appendingPathComponent(path)
         let response = Alamofire.request(url,
@@ -73,10 +101,12 @@ public class QuackClient {
                                          parameters: params,
                                          headers: headers
                                          ).responseData()
-        if let jsonData = response.result.value {
-            return JSON(data: jsonData)
+        switch response.result {
+        case .success(let jsonData):
+            return QuackResult.Success(JSON(data: jsonData))
+        case .failure(let error):
+            return QuackResult.Failure(error)
         }
-        return nil
     }
 
 }

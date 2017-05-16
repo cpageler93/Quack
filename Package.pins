@@ -10,8 +10,8 @@
     {
       "package": "SwiftyJSON",
       "reason": null,
-      "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
-      "version": "3.1.4"
+      "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON.git",
+      "version": "16.0.0"
     }
   ],
   "version": 1
