@@ -6,7 +6,13 @@ class GithubClient: QuackClient {
     init() {
        super.init(url: URL(string: "https://api.github.com")!)
     }
-    
+
+    public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
+        return respondWithArray(method: .get,
+                                path: "/users/\(owner)/repos",
+                                model: GithubRepository.self)
+    }
+
     public func repositoryBranches(repository: GithubRepository) -> QuackResult<[GithubRepositoryBranch]> {
         guard let fullName = repository.fullName else {
             return QuackResult.Failure(QuackError.ErrorWithName("missing fullname"))
@@ -14,12 +20,6 @@ class GithubClient: QuackClient {
         return respondWithArray(method: .get,
                                 path: "/repos/\(fullName)/branches",
                                 model: GithubRepositoryBranch.self)
-    }
-
-    public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
-        return respondWithArray(method: .get,
-                                path: "/users/\(owner)/repos",
-                                model: GithubRepository.self)
     }
 }
 

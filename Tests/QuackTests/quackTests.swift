@@ -30,7 +30,6 @@ class GithubQuackTests: XCTestCase {
         case .Failure(let error):
             XCTAssertNil(error)
         }
-        
     }
 
     func testDummyAccountServiceWithValidURL() {
