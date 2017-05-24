@@ -24,7 +24,7 @@ class GithubClient: QuackClient {
 
     public func repositoryBranches(repository: GithubRepository) -> QuackResult<[GithubRepositoryBranch]> {
         guard let fullName = repository.fullName else {
-            return QuackResult.Failure(QuackError.ErrorWithName("missing fullname"))
+            return QuackResult.failure(QuackError.ErrorWithName("missing fullname"))
         }
         return respondWithArray(method: .get,
                                 path: "/repos/\(fullName)/branches",

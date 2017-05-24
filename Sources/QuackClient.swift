@@ -11,8 +11,8 @@ import Alamofire
 import SwiftyJSON
 
 public enum QuackResult<T> {
-    case Success(T)
-    case Failure(Error)
+    case success(T)
+    case failure(Error)
 }
 
 open class QuackClient {
@@ -57,10 +57,10 @@ open class QuackClient {
                                            model: Model.Type) -> QuackResult<Model> {
         let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
         switch result {
-        case .Success(let json):
+        case .success(let json):
             return modelFromJSON(json: json)
-        case .Failure(let error):
-            return QuackResult.Failure(error)
+        case .failure(let error):
+            return QuackResult.failure(error)
         }
     }
 
@@ -71,10 +71,10 @@ open class QuackClient {
                                                     model: Model.Type) -> QuackResult<[Model]> {
         let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
         switch result {
-        case .Success(let json):
+        case .success(let json):
             return modelArrayFromJSON(json: json)
-        case .Failure(let error):
-            return QuackResult.Failure(error)
+        case .failure(let error):
+            return QuackResult.failure(error)
         }
     }
     
@@ -91,9 +91,9 @@ open class QuackClient {
                                          ).responseData()
         switch response.result {
         case .success(let jsonData):
-            return QuackResult.Success(JSON(data: jsonData))
+            return QuackResult.success(JSON(data: jsonData))
         case .failure(let error):
-            return QuackResult.Failure(error)
+            return QuackResult.failure(error)
         }
     }
     
@@ -107,10 +107,10 @@ open class QuackClient {
                                                 completion: @escaping (QuackResult<Model>) -> (Void)) {
         respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
             switch result {
-            case .Success(let json):
+            case .success(let json):
                 completion(self.modelFromJSON(json: json))
-            case .Failure(let error):
-                completion(QuackResult.Failure(error))
+            case .failure(let error):
+                completion(QuackResult.failure(error))
             }
         }
     }
@@ -123,10 +123,10 @@ open class QuackClient {
                                                          completion: @escaping (QuackResult<[Model]>) -> (Void)) {
         respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
             switch result {
-            case .Success(let json):
+            case .success(let json):
                 completion(self.modelArrayFromJSON(json: json))
-            case .Failure(let error):
-                completion(QuackResult.Failure(error))
+            case .failure(let error):
+                completion(QuackResult.failure(error))
             }
         }
     }
@@ -141,9 +141,9 @@ open class QuackClient {
         Alamofire.request(url, method: method, parameters: params, headers: headers).responseData { response in
             switch response.result {
             case .success(let jsonData):
-                completion(QuackResult.Success(JSON(data: jsonData)))
+                completion(QuackResult.success(JSON(data: jsonData)))
             case .failure(let error):
-                completion(QuackResult.Failure(error))
+                completion(QuackResult.failure(error))
             }
         }
     }
@@ -152,9 +152,9 @@ open class QuackClient {
     
     private func modelFromJSON<Model: QuackModel>(json: JSON) -> QuackResult<Model> {
         if let model = Model(json: json) {
-            return QuackResult.Success(model)
+            return QuackResult.success(model)
         } else {
-            return QuackResult.Failure(QuackError.ModelParsingError)
+            return QuackResult.failure(QuackError.ModelParsingError)
         }
     }
     
@@ -166,9 +166,9 @@ open class QuackClient {
                     models.append(model)
                 }
             }
-            return QuackResult.Success(models)
+            return QuackResult.success(models)
         } else {
-            return QuackResult.Failure(QuackError.JSONParsingError)
+            return QuackResult.failure(QuackError.JSONParsingError)
         }
     }
 

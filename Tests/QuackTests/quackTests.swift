@@ -13,9 +13,9 @@ class GithubQuackTests: XCTestCase {
         let github = GithubClient()
         let repos = github.repositories(owner: "cpageler93")
         switch repos {
-        case .Success(let repos):
+        case .success(let repos):
             XCTAssertGreaterThan(repos.count, 0)
-        case .Failure(let error):
+        case .failure(let error):
             XCTAssertNil(error)
         }
     }
@@ -25,9 +25,9 @@ class GithubQuackTests: XCTestCase {
         let repositoryExpectation = self.expectation(description: "Github Repositories")
         github.repositories(owner: "cpageler93") { repos in
             switch repos {
-            case .Success(let repos):
+            case .success(let repos):
                 XCTAssertGreaterThan(repos.count, 0)
-            case .Failure(let error):
+            case .failure(let error):
                 XCTAssertNil(error)
             }
             repositoryExpectation.fulfill()
@@ -41,9 +41,9 @@ class GithubQuackTests: XCTestCase {
         let repo = GithubRepository("cpageler93/Quack")
         let branches = github.repositoryBranches(repository: repo)
         switch branches {
-        case .Success(let branches):
+        case .success(let branches):
             XCTAssertGreaterThan(branches.count, 0)
-        case .Failure(let error):
+        case .failure(let error):
             XCTAssertNil(error)
         }
     }
