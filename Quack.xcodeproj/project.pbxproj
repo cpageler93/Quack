@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5935170E1ED71A0B00A0C728 /* ConsulQuack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5935170D1ED71A0B00A0C728 /* ConsulQuack.swift */; };
 		OBJ_100 /* Quack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* Quack.framework */; };
 		OBJ_49 /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* AFError.swift */; };
 		OBJ_50 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* Alamofire.swift */; };
@@ -79,6 +80,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5935170D1ED71A0B00A0C728 /* ConsulQuack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsulQuack.swift; sourceTree = "<group>"; };
 		OBJ_10 /* QuackClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuackClient.swift; sourceTree = "<group>"; };
 		OBJ_11 /* QuackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuackModel.swift; sourceTree = "<group>"; };
 		OBJ_14 /* DummyAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAccountService.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			children = (
 				OBJ_14 /* DummyAccountService.swift */,
 				OBJ_15 /* GithubQuack.swift */,
+				5935170D1ED71A0B00A0C728 /* ConsulQuack.swift */,
 				OBJ_16 /* quackTests.swift */,
 			);
 			name = QuackTests;
@@ -223,7 +226,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -232,7 +235,6 @@
 				OBJ_17 /* Dependencies */,
 				OBJ_39 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -333,7 +335,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_39 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -396,6 +398,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_94 /* DummyAccountService.swift in Sources */,
+				5935170E1ED71A0B00A0C728 /* ConsulQuack.swift in Sources */,
 				OBJ_95 /* GithubQuack.swift in Sources */,
 				OBJ_96 /* quackTests.swift in Sources */,
 			);

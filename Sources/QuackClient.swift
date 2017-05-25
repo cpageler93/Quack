@@ -15,6 +15,8 @@ public enum QuackResult<T> {
     case failure(Error)
 }
 
+public typealias QuackVoid = QuackResult<Void>
+
 open class QuackClient {
     
     public private(set) var url: URL
@@ -78,6 +80,19 @@ open class QuackClient {
         }
     }
     
+    public func respondVoid(method: HTTPMethod = .get,
+                            path: String,
+                            params: [String: Any] = [:],
+                            headers: [String: String] = [:]) -> QuackVoid {
+        let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
+        switch result {
+        case .success:
+            return QuackResult.success()
+        case .failure(let error):
+            return QuackResult.failure(error)
+        }
+    }
+    
     private func respondWithJSON(method: HTTPMethod = .get,
                                  path: String,
                                  params: [String: Any] = [:],
@@ -125,6 +140,21 @@ open class QuackClient {
             switch result {
             case .success(let json):
                 completion(self.modelArrayFromJSON(json: json))
+            case .failure(let error):
+                completion(QuackResult.failure(error))
+            }
+        }
+    }
+    
+    public func respondVoidAsyny(method: HTTPMethod = .get,
+                            path: String,
+                            params: [String: Any] = [:],
+                            headers: [String: String] = [:],
+                            completion: @escaping (QuackVoid) -> (Void)) {
+        respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
+            switch result {
+            case .success:
+                completion(QuackResult.success())
             case .failure(let error):
                 completion(QuackResult.failure(error))
             }

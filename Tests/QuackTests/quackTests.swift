@@ -57,4 +57,15 @@ class GithubQuackTests: XCTestCase {
         let service = DummyAccountServiceClient(urlString: "")
         XCTAssertNil(service)
     }
+    
+    func testConsulAgentReload() {
+        let consul = Consul()
+        let result = consul.agentReload()
+        switch result {
+        case .success():
+            print("success")
+        case .failure(let error):
+            XCTAssertNil(error)
+        }
+    }
 }
