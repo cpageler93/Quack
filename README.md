@@ -9,9 +9,9 @@ let github = GithubClient()
 
 github.repositories(owner: "cpageler93") { repos in
     switch repos {
-    case .Success(let repos):
+    case .success(let repos):
         // do something with repos (which is kind of [GithubRepository])
-    case .Failure(let error):
+    case .failure(let error):
         // handle error
     }
 }
@@ -77,9 +77,9 @@ case .Failure(let error):
 // asynchronous
 github.repositories(owner: "cpageler93") { repos in
     switch repos {
-    case .Success(let repos):
+    case .success(let repos):
         // do something with repos (which is kind of [GithubRepository])
-    case .Failure(let error):
+    case .failure(let error):
         // handle error
     }
 }
