@@ -49,6 +49,10 @@ public protocol QuackCustomModelParser {
 /// ]
 open class QuackArrayParserByIgnoringDictionaryKeys: QuackCustomArrayParser {
     
+    public init() {
+        
+    }
+
     public func parseArray<Model>(json: JSON, model: Model.Type) -> QuackResult<[Model]> where Model : QuackModel {
         if let dictionary = json.dictionary {
             var result: [Model] = []
