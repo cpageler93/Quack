@@ -58,6 +58,7 @@ open class QuackClient {
                                            headers: [String: String] = [:],
                                            encoding: ParameterEncoding = URLEncoding.default,
                                            validStatusCodes: CountableRange<Int> = 200..<300,
+                                           parser: QuackCustomModelParser? = nil,
                                            model: Model.Type) -> QuackResult<Model> {
         let result = respondWithJSON(method: method,
                                      path: path,
@@ -67,7 +68,11 @@ open class QuackClient {
                                      validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
-            return modelFromJSON(json: json)
+            if let customParser = parser {
+                return customParser.parseModel(json: json, model: model)
+            } else {
+                return modelFromJSON(json: json)
+            }
         case .failure(let error):
             return QuackResult.failure(error)
         }
@@ -79,6 +84,7 @@ open class QuackClient {
                                                     headers: [String: String] = [:],
                                                     encoding: ParameterEncoding = URLEncoding.default,
                                                     validStatusCodes: CountableRange<Int> = 200..<300,
+                                                    parser: QuackCustomArrayParser? = nil,
                                                     model: Model.Type) -> QuackResult<[Model]> {
         let result = respondWithJSON(method: method,
                                      path: path, 
@@ -88,7 +94,11 @@ open class QuackClient {
                                      validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
-            return modelArrayFromJSON(json: json)
+            if let customParser = parser {
+                return customParser.parseArray(json: json, model: model)
+            } else {
+                return modelArrayFromJSON(json: json)
+            }
         case .failure(let error):
             return QuackResult.failure(error)
         }
@@ -122,6 +132,7 @@ open class QuackClient {
                                                 headers: [String: String] = [:],
                                                 encoding: ParameterEncoding = URLEncoding.default,
                                                 validStatusCodes: CountableRange<Int> = 200..<300,
+                                                parser: QuackCustomModelParser? = nil,
                                                 model: Model.Type,
                                                 completion: @escaping (QuackResult<Model>) -> (Void)) {
         respondWithJSONAsync(method: method,
@@ -133,7 +144,11 @@ open class QuackClient {
         { result in
             switch result {
             case .success(let json):
-                completion(self.modelFromJSON(json: json))
+                if let customParser = parser {
+                    completion(customParser.parseModel(json: json, model: model))
+                } else {
+                    completion(self.modelFromJSON(json: json))
+                }
             case .failure(let error):
                 completion(QuackResult.failure(error))
             }
@@ -146,6 +161,7 @@ open class QuackClient {
                                                          headers: [String: String] = [:],
                                                          encoding: ParameterEncoding = URLEncoding.default,
                                                          validStatusCodes: CountableRange<Int> = 200..<300,
+                                                         parser: QuackCustomArrayParser? = nil,
                                                          model: Model.Type,
                                                          completion: @escaping (QuackResult<[Model]>) -> (Void)) {
         respondWithJSONAsync(method: method,
@@ -157,7 +173,11 @@ open class QuackClient {
         { result in
             switch result {
             case .success(let json):
-                completion(self.modelArrayFromJSON(json: json))
+                if let customParser = parser {
+                    completion(customParser.parseArray(json: json, model: model))
+                } else {
+                    completion(self.modelArrayFromJSON(json: json))
+                }
             case .failure(let error):
                 completion(QuackResult.failure(error))
             }

@@ -68,4 +68,15 @@ class GithubQuackTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
+    
+    func testConsulAgentChecks() {
+        let consul = Consul()
+        let checks = consul.agentChecks()
+        switch checks {
+        case .success(let checks):
+            XCTAssertGreaterThanOrEqual(checks.count, 0)
+        case .failure(let error):
+            XCTAssertNil(error)
+        }
+    }
 }

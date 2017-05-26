@@ -10,5 +10,4 @@ class DummyAccountServiceClient: QuackClient {
     func getVoid(completion: @escaping (QuackVoid) -> (Void)) {
         respondVoidAsync(path: "foo/bar", completion: completion)
     }
-    
 }

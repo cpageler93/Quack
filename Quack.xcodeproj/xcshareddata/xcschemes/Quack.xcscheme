@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_44"
+               BlueprintIdentifier = "OBJ_46"
                BuildableName = "Alamofire.framework"
                BlueprintName = "Alamofire"
                ReferencedContainer = "container:Quack.xcodeproj">
@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_67"
+               BlueprintIdentifier = "OBJ_69"
                BuildableName = "SwiftyJSON.framework"
                BlueprintName = "SwiftyJSON"
                ReferencedContainer = "container:Quack.xcodeproj">
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_75"
+               BlueprintIdentifier = "OBJ_77"
                BuildableName = "Quack.framework"
                BlueprintName = "Quack"
                ReferencedContainer = "container:Quack.xcodeproj">
@@ -60,7 +60,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_89"
+               BlueprintIdentifier = "OBJ_92"
                BuildableName = "QuackTests.xctest"
                BlueprintName = "QuackTests"
                ReferencedContainer = "container:Quack.xcodeproj">
@@ -83,7 +83,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_44"
+            BlueprintIdentifier = "OBJ_46"
             BuildableName = "Alamofire.framework"
             BlueprintName = "Alamofire"
             ReferencedContainer = "container:Quack.xcodeproj">
