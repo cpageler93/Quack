@@ -16,7 +16,7 @@ public class Consul: QuackClient {
     }
     
     public func agentReload() -> QuackVoid {
-        return respondVoid(path: "/v1/agent/reload")
+        return respondVoid(method: .put, path: "/v1/agent/reload")
     }
     
 }

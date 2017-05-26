@@ -56,8 +56,13 @@ open class QuackClient {
                                            path: String,
                                            params: [String: Any] = [:],
                                            headers: [String: String] = [:],
+                                           validStatusCodes: CountableRange<Int> = 200..<300,
                                            model: Model.Type) -> QuackResult<Model> {
-        let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
+        let result = respondWithJSON(method: method,
+                                     path: path,
+                                     params: params,
+                                     headers: headers,
+                                     validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
             return modelFromJSON(json: json)
@@ -70,8 +75,13 @@ open class QuackClient {
                                                     path: String,
                                                     params: [String: Any] = [:],
                                                     headers: [String: String] = [:],
+                                                    validStatusCodes: CountableRange<Int> = 200..<300,
                                                     model: Model.Type) -> QuackResult<[Model]> {
-        let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
+        let result = respondWithJSON(method: method,
+                                     path: path, 
+                                     params: params, 
+                                     headers: headers,
+                                     validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
             return modelArrayFromJSON(json: json)
@@ -83,30 +93,16 @@ open class QuackClient {
     public func respondVoid(method: HTTPMethod = .get,
                             path: String,
                             params: [String: Any] = [:],
-                            headers: [String: String] = [:]) -> QuackVoid {
-        let result = respondWithJSON(method: method, path: path, params: params, headers: headers)
+                            headers: [String: String] = [:],
+                            validStatusCodes: CountableRange<Int> = 200..<300) -> QuackVoid {
+        let result = respondWithJSON(method: method,
+                                     path: path,
+                                     params: params,
+                                     headers: headers,
+                                     validStatusCodes: validStatusCodes)
         switch result {
         case .success:
             return QuackResult.success()
-        case .failure(let error):
-            return QuackResult.failure(error)
-        }
-    }
-    
-    private func respondWithJSON(method: HTTPMethod = .get,
-                                 path: String,
-                                 params: [String: Any] = [:],
-                                 headers: [String: String] = [:]) -> QuackResult<JSON> {
-        
-        let url = self.url.appendingPathComponent(path)
-        let response = Alamofire.request(url,
-                                         method: method,
-                                         parameters: params,
-                                         headers: headers
-                                         ).responseData()
-        switch response.result {
-        case .success(let jsonData):
-            return QuackResult.success(JSON(data: jsonData))
         case .failure(let error):
             return QuackResult.failure(error)
         }
@@ -117,10 +113,16 @@ open class QuackClient {
     public func respondAsync<Model: QuackModel>(method: HTTPMethod = .get,
                                                 path: String,
                                                 params: [String: Any] = [:],
-                                                model: Model.Type,
                                                 headers: [String: String] = [:],
+                                                validStatusCodes: CountableRange<Int> = 200..<300,
+                                                model: Model.Type,
                                                 completion: @escaping (QuackResult<Model>) -> (Void)) {
-        respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
+        respondWithJSONAsync(method: method,
+                             path: path,
+                             params: params,
+                             headers: headers,
+                             validStatusCodes: validStatusCodes)
+        { result in
             switch result {
             case .success(let json):
                 completion(self.modelFromJSON(json: json))
@@ -133,10 +135,16 @@ open class QuackClient {
     public func respondWithArrayAsync<Model: QuackModel>(method: HTTPMethod = .get,
                                                          path: String,
                                                          params: [String: Any] = [:],
-                                                         model: Model.Type,
                                                          headers: [String: String] = [:],
+                                                         validStatusCodes: CountableRange<Int> = 200..<300,
+                                                         model: Model.Type,
                                                          completion: @escaping (QuackResult<[Model]>) -> (Void)) {
-        respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
+        respondWithJSONAsync(method: method,
+                             path: path,
+                             params: params,
+                             headers: headers,
+                             validStatusCodes: validStatusCodes)
+        { result in
             switch result {
             case .success(let json):
                 completion(self.modelArrayFromJSON(json: json))
@@ -146,12 +154,18 @@ open class QuackClient {
         }
     }
     
-    public func respondVoidAsyny(method: HTTPMethod = .get,
-                            path: String,
-                            params: [String: Any] = [:],
-                            headers: [String: String] = [:],
-                            completion: @escaping (QuackVoid) -> (Void)) {
-        respondWithJSONAsync(method: method, path: path, params: params, headers: headers) { result in
+    public func respondVoidAsync(method: HTTPMethod = .get,
+                                 path: String,
+                                 params: [String: Any] = [:],
+                                 headers: [String: String] = [:],
+                                 validStatusCodes: CountableRange<Int> = 200..<300,
+                                 completion: @escaping (QuackVoid) -> (Void)) {
+        respondWithJSONAsync(method: method,
+                             path: path,
+                             params: params, 
+                             headers: headers,
+                             validStatusCodes: validStatusCodes)
+        { result in
             switch result {
             case .success:
                 completion(QuackResult.success())
@@ -161,14 +175,40 @@ open class QuackClient {
         }
     }
     
-    private func respondWithJSONAsync(method: HTTPMethod = .get,
-                                      path: String,
-                                      params: [String: Any] = [:],
-                                      headers: [String: String] = [:],
-                                      completion: @escaping (QuackResult<JSON>) -> (Void)) {
+    // MARK: - Alamofire Requests
+    
+    private func respondWithJSON(method: HTTPMethod,
+                                 path: String,
+                                 params: [String: Any],
+                                 headers: [String: String],
+                                 validStatusCodes: CountableRange<Int>) -> QuackResult<JSON> {
         
-        let url = self.url.appendingPathComponent(path)
-        Alamofire.request(url, method: method, parameters: params, headers: headers).responseData { response in
+        let request = dataRequest(method: method,
+                                  path: path,
+                                  params: params, 
+                                  headers: headers,
+                                  validStatusCodes: validStatusCodes)
+        let response = request.responseData()
+        switch response.result {
+        case .success(let jsonData):
+            return QuackResult.success(JSON(data: jsonData))
+        case .failure(let error):
+            return QuackResult.failure(error)
+        }
+    }
+    
+    private func respondWithJSONAsync(method: HTTPMethod,
+                                      path: String,
+                                      params: [String: Any],
+                                      headers: [String: String],
+                                      validStatusCodes: CountableRange<Int>,
+                                      completion: @escaping (QuackResult<JSON>) -> (Void)) {
+        let request = dataRequest(method: method,
+                                  path: path,
+                                  params: params, 
+                                  headers: headers,
+                                  validStatusCodes: validStatusCodes)
+        request.responseData { response in
             switch response.result {
             case .success(let jsonData):
                 completion(QuackResult.success(JSON(data: jsonData)))
@@ -176,6 +216,17 @@ open class QuackClient {
                 completion(QuackResult.failure(error))
             }
         }
+    }
+    
+    private func dataRequest(method: HTTPMethod,
+                             path: String,
+                             params: [String: Any],
+                             headers: [String: String],
+                             validStatusCodes: CountableRange<Int>) -> DataRequest {
+        let url = self.url.appendingPathComponent(path)
+        var request = Alamofire.request(url, method: method, parameters: params, headers: headers)
+        request = request.validate(statusCode: validStatusCodes)
+        return request
     }
     
     // MARK: - JSON - Model Handling

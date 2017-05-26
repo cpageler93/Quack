@@ -8,7 +8,7 @@ class DummyAccountServiceClient: QuackClient {
     }
     
     func getVoid(completion: @escaping (QuackVoid) -> (Void)) {
-        respondVoidAsyny(path: "foo/bar", completion: completion)
+        respondVoidAsync(path: "foo/bar", completion: completion)
     }
     
 }
