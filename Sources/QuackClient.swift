@@ -56,12 +56,14 @@ open class QuackClient {
                                            path: String,
                                            params: [String: Any] = [:],
                                            headers: [String: String] = [:],
+                                           encoding: ParameterEncoding = URLEncoding.default,
                                            validStatusCodes: CountableRange<Int> = 200..<300,
                                            model: Model.Type) -> QuackResult<Model> {
         let result = respondWithJSON(method: method,
                                      path: path,
                                      params: params,
                                      headers: headers,
+                                     encoding: encoding,
                                      validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
@@ -75,12 +77,14 @@ open class QuackClient {
                                                     path: String,
                                                     params: [String: Any] = [:],
                                                     headers: [String: String] = [:],
+                                                    encoding: ParameterEncoding = URLEncoding.default,
                                                     validStatusCodes: CountableRange<Int> = 200..<300,
                                                     model: Model.Type) -> QuackResult<[Model]> {
         let result = respondWithJSON(method: method,
                                      path: path, 
                                      params: params, 
                                      headers: headers,
+                                     encoding: encoding,
                                      validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
@@ -94,11 +98,13 @@ open class QuackClient {
                             path: String,
                             params: [String: Any] = [:],
                             headers: [String: String] = [:],
+                            encoding: ParameterEncoding = URLEncoding.default,
                             validStatusCodes: CountableRange<Int> = 200..<300) -> QuackVoid {
         let result = respondWithJSON(method: method,
                                      path: path,
                                      params: params,
                                      headers: headers,
+                                     encoding: encoding,
                                      validStatusCodes: validStatusCodes)
         switch result {
         case .success:
@@ -114,6 +120,7 @@ open class QuackClient {
                                                 path: String,
                                                 params: [String: Any] = [:],
                                                 headers: [String: String] = [:],
+                                                encoding: ParameterEncoding = URLEncoding.default,
                                                 validStatusCodes: CountableRange<Int> = 200..<300,
                                                 model: Model.Type,
                                                 completion: @escaping (QuackResult<Model>) -> (Void)) {
@@ -121,6 +128,7 @@ open class QuackClient {
                              path: path,
                              params: params,
                              headers: headers,
+                             encoding: encoding,
                              validStatusCodes: validStatusCodes)
         { result in
             switch result {
@@ -136,6 +144,7 @@ open class QuackClient {
                                                          path: String,
                                                          params: [String: Any] = [:],
                                                          headers: [String: String] = [:],
+                                                         encoding: ParameterEncoding = URLEncoding.default,
                                                          validStatusCodes: CountableRange<Int> = 200..<300,
                                                          model: Model.Type,
                                                          completion: @escaping (QuackResult<[Model]>) -> (Void)) {
@@ -143,6 +152,7 @@ open class QuackClient {
                              path: path,
                              params: params,
                              headers: headers,
+                             encoding: encoding,
                              validStatusCodes: validStatusCodes)
         { result in
             switch result {
@@ -158,12 +168,14 @@ open class QuackClient {
                                  path: String,
                                  params: [String: Any] = [:],
                                  headers: [String: String] = [:],
+                                 encoding: ParameterEncoding = URLEncoding.default,
                                  validStatusCodes: CountableRange<Int> = 200..<300,
                                  completion: @escaping (QuackVoid) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
                              params: params, 
                              headers: headers,
+                             encoding: encoding,
                              validStatusCodes: validStatusCodes)
         { result in
             switch result {
@@ -181,12 +193,14 @@ open class QuackClient {
                                  path: String,
                                  params: [String: Any],
                                  headers: [String: String],
+                                 encoding: ParameterEncoding,
                                  validStatusCodes: CountableRange<Int>) -> QuackResult<JSON> {
         
         let request = dataRequest(method: method,
                                   path: path,
                                   params: params, 
                                   headers: headers,
+                                  encoding: encoding,
                                   validStatusCodes: validStatusCodes)
         let response = request.responseData()
         switch response.result {
@@ -201,12 +215,14 @@ open class QuackClient {
                                       path: String,
                                       params: [String: Any],
                                       headers: [String: String],
+                                      encoding: ParameterEncoding,
                                       validStatusCodes: CountableRange<Int>,
                                       completion: @escaping (QuackResult<JSON>) -> (Void)) {
         let request = dataRequest(method: method,
                                   path: path,
                                   params: params, 
                                   headers: headers,
+                                  encoding: encoding,
                                   validStatusCodes: validStatusCodes)
         request.responseData { response in
             switch response.result {
@@ -222,9 +238,14 @@ open class QuackClient {
                              path: String,
                              params: [String: Any],
                              headers: [String: String],
+                             encoding: ParameterEncoding,
                              validStatusCodes: CountableRange<Int>) -> DataRequest {
         let url = self.url.appendingPathComponent(path)
-        var request = Alamofire.request(url, method: method, parameters: params, headers: headers)
+        var request = Alamofire.request(url,
+                                        method: method,
+                                        parameters: params,
+                                        encoding: encoding,
+                                        headers: headers)
         request = request.validate(statusCode: validStatusCodes)
         return request
     }
