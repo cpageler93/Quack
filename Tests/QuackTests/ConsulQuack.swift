@@ -35,9 +35,8 @@ public class Consul: QuackClient {
     }
     
     public func agentChecks() -> QuackResult<[ConsulAgentCheckOutput]> {
-        let parser = QuackCustomDictionaryParser()
         return respondWithArray(path: "/v1/agent/checks",
-                                parser: parser,
+                                parser: QuackArrayParserByIgnoringDictionaryKeys(),
                                 model: ConsulAgentCheckOutput.self)
     }
     

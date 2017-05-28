@@ -17,7 +17,7 @@ public enum QuackResult<T> {
 
 public typealias QuackVoid = QuackResult<Void>
 
-open class QuackClient {
+open class QuackClient: NSObject, QuackCustomModelParser, QuackCustomArrayParser {
     
     public private(set) var url: URL
     let manager: Alamofire.SessionManager
@@ -68,11 +68,7 @@ open class QuackClient {
                                      validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
-            if let customParser = parser {
-                return customParser.parseModel(json: json, model: model)
-            } else {
-                return modelFromJSON(json: json)
-            }
+            return (parser ?? self).parseModel(json: json, model: model)
         case .failure(let error):
             return QuackResult.failure(error)
         }
@@ -94,11 +90,7 @@ open class QuackClient {
                                      validStatusCodes: validStatusCodes)
         switch result {
         case .success(let json):
-            if let customParser = parser {
-                return customParser.parseArray(json: json, model: model)
-            } else {
-                return modelArrayFromJSON(json: json)
-            }
+            return (parser ?? self).parseArray(json: json, model: model)
         case .failure(let error):
             return QuackResult.failure(error)
         }
@@ -144,11 +136,7 @@ open class QuackClient {
         { result in
             switch result {
             case .success(let json):
-                if let customParser = parser {
-                    completion(customParser.parseModel(json: json, model: model))
-                } else {
-                    completion(self.modelFromJSON(json: json))
-                }
+                completion((parser ?? self).parseModel(json: json, model: model))
             case .failure(let error):
                 completion(QuackResult.failure(error))
             }
@@ -173,11 +161,7 @@ open class QuackClient {
         { result in
             switch result {
             case .success(let json):
-                if let customParser = parser {
-                    completion(customParser.parseArray(json: json, model: model))
-                } else {
-                    completion(self.modelArrayFromJSON(json: json))
-                }
+                completion((parser ?? self).parseArray(json: json, model: model))
             case .failure(let error):
                 completion(QuackResult.failure(error))
             }
@@ -270,9 +254,9 @@ open class QuackClient {
         return request
     }
     
-    // MARK: - JSON - Model Handling
+    // MARK: QuackCustomModelParser
     
-    private func modelFromJSON<Model: QuackModel>(json: JSON) -> QuackResult<Model> {
+    public func parseModel<Model>(json: JSON, model: Model.Type) -> QuackResult<Model> where Model : QuackModel {
         if let model = Model(json: json) {
             return QuackResult.success(model)
         } else {
@@ -280,7 +264,9 @@ open class QuackClient {
         }
     }
     
-    private func modelArrayFromJSON<Model: QuackModel>(json: JSON) -> QuackResult<[Model]> {
+    // MARK: QuackCustomArrayParser
+    
+    public func parseArray<Model>(json: JSON, model: Model.Type) -> QuackResult<[Model]> where Model : QuackModel {
         if let jsonArray = json.array {
             var models: [Model] = []
             for jsonObject in jsonArray {
