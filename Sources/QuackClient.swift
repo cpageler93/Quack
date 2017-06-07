@@ -17,7 +17,7 @@ public enum QuackResult<T> {
 
 public typealias QuackVoid = QuackResult<Void>
 
-open class QuackClient: NSObject, QuackCustomModelParser, QuackCustomArrayParser {
+open class QuackClient {
     
     public private(set) var url: URL
     let manager: Alamofire.SessionManager
@@ -254,7 +254,9 @@ open class QuackClient: NSObject, QuackCustomModelParser, QuackCustomArrayParser
         return request
     }
     
-    // MARK: QuackCustomModelParser
+}
+
+extension QuackClient: QuackCustomModelParser {
     
     public func parseModel<Model>(json: JSON, model: Model.Type) -> QuackResult<Model> where Model : QuackModel {
         if let model = Model(json: json) {
@@ -264,7 +266,9 @@ open class QuackClient: NSObject, QuackCustomModelParser, QuackCustomArrayParser
         }
     }
     
-    // MARK: QuackCustomArrayParser
+}
+
+extension QuackClient: QuackCustomArrayParser {
     
     public func parseArray<Model>(json: JSON, model: Model.Type) -> QuackResult<[Model]> where Model : QuackModel {
         if let jsonArray = json.array {
@@ -279,5 +283,5 @@ open class QuackClient: NSObject, QuackCustomModelParser, QuackCustomArrayParser
             return QuackResult.failure(QuackError.JSONParsingError)
         }
     }
-
+    
 }
