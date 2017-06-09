@@ -1,5 +1,7 @@
 # Quack
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/28beba3fed654a6284a1fca5df022490)](https://www.codacy.com/app/cpageler93/Quack?utm_source=github.com&utm_medium=referral&utm_content=cpageler93/Quack&utm_campaign=badger)
+
 `Quack` is an addition to [Alamofire](https://github.com/Alamofire/Alamofire) which makes HTTP(s) calls easier and syntax cleaner.
 
 With `Quack` HTTP(s) calls look that beautiful and easy:
