@@ -48,8 +48,8 @@ public protocol QuackCustomModelParser {
 ///   }
 /// ]
 open class QuackArrayParserByIgnoringDictionaryKeys {
-    
-    public init() { }
+
+    public init() {}
     
 }
 

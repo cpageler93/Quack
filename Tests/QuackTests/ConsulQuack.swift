@@ -13,7 +13,7 @@ import SwiftyJSON
 public class ConsulAgentCheckOutput: QuackModel {
     var node: String
     var checkID: String
-    
+
     required public init?(json: JSON) {
         guard
             let node = json["Node"].string,

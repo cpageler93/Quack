@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 extension DataRequest {
-    
+
     /**
      Wait for the request to finish then return the response value.
      
@@ -104,10 +104,12 @@ extension DataRequest {
     public func responsePropertyList(options: PropertyListSerialization.ReadOptions = PropertyListSerialization.ReadOptions()) -> DataResponse<Any> {
         return response(responseSerializer: DataRequest.propertyListResponseSerializer(options: options))
     }
+
 }
 
 
 extension DownloadRequest {
+    
     /**
      Wait for the request to finish then return the response value.
      

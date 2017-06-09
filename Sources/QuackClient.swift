@@ -18,7 +18,7 @@ public enum QuackResult<T> {
 public typealias QuackVoid = QuackResult<Void>
 
 open class QuackClient {
-    
+
     public private(set) var url: URL
     let manager: Alamofire.SessionManager
     
@@ -83,8 +83,8 @@ open class QuackClient {
                                                     parser: QuackCustomArrayParser? = nil,
                                                     model: Model.Type) -> QuackResult<[Model]> {
         let result = respondWithJSON(method: method,
-                                     path: path, 
-                                     params: params, 
+                                     path: path,
+                                     params: params,
                                      headers: headers,
                                      encoding: encoding,
                                      validStatusCodes: validStatusCodes)
@@ -132,14 +132,13 @@ open class QuackClient {
                              params: params,
                              headers: headers,
                              encoding: encoding,
-                             validStatusCodes: validStatusCodes)
-        { result in
-            switch result {
-            case .success(let json):
-                completion((parser ?? self).parseModel(json: json, model: model))
-            case .failure(let error):
-                completion(QuackResult.failure(error))
-            }
+                             validStatusCodes: validStatusCodes) { result in
+                                switch result {
+                                case .success(let json):
+                                    completion((parser ?? self).parseModel(json: json, model: model))
+                                case .failure(let error):
+                                    completion(QuackResult.failure(error))
+                                }
         }
     }
     
@@ -157,14 +156,13 @@ open class QuackClient {
                              params: params,
                              headers: headers,
                              encoding: encoding,
-                             validStatusCodes: validStatusCodes)
-        { result in
-            switch result {
-            case .success(let json):
-                completion((parser ?? self).parseArray(json: json, model: model))
-            case .failure(let error):
-                completion(QuackResult.failure(error))
-            }
+                             validStatusCodes: validStatusCodes) { result in
+                                switch result {
+                                case .success(let json):
+                                    completion((parser ?? self).parseArray(json: json, model: model))
+                                case .failure(let error):
+                                    completion(QuackResult.failure(error))
+                                }
         }
     }
     

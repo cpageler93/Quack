@@ -3,10 +3,11 @@ import SwiftyJSON
 @testable import Quack
 
 class GithubClient: QuackClient {
+
     init() {
        super.init(url: URL(string: "https://api.github.com")!)
     }
-    
+
     // MARK: - Repository Methods
 
     public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
@@ -30,6 +31,7 @@ class GithubClient: QuackClient {
                                 path: "/repos/\(fullName)/branches",
                                 model: GithubRepositoryBranch.self)
     }
+
 }
 
 class GithubRepository: QuackModel {

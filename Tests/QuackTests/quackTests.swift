@@ -3,7 +3,7 @@ import Foundation
 @testable import Quack
 
 class GithubQuackTests: XCTestCase {
-    
+
     func testGithub() {
         let github = GithubClient()
         XCTAssertEqual(github.url.absoluteString, "https://api.github.com")
@@ -79,4 +79,5 @@ class GithubQuackTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
+
 }
