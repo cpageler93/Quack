@@ -21,9 +21,9 @@ open class QuackClient {
 
     public private(set) var url: URL
     let manager: Alamofire.SessionManager
-    
+
     // MARK: - Init
-    
+
     public init(url: URL,
                 timeoutInterval: TimeInterval = 5,
                 serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
@@ -175,17 +175,16 @@ open class QuackClient {
                                  completion: @escaping (QuackVoid) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
-                             params: params, 
+                             params: params,
                              headers: headers,
                              encoding: encoding,
-                             validStatusCodes: validStatusCodes)
-        { result in
-            switch result {
-            case .success:
-                completion(QuackResult.success())
-            case .failure(let error):
-                completion(QuackResult.failure(error))
-            }
+                             validStatusCodes: validStatusCodes) { result in
+                                switch result {
+                                case .success:
+                                    completion(QuackResult.success())
+                                case .failure(let error):
+                                    completion(QuackResult.failure(error))
+                                }
         }
     }
     

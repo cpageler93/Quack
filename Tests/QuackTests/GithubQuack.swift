@@ -15,7 +15,7 @@ class GithubClient: QuackClient {
                                 path: "/users/\(owner)/repos",
                                 model: GithubRepository.self)
     }
-    
+
     public func repositories(owner: String, completion: @escaping (QuackResult<[GithubRepository]>) -> (Void)) {
         return respondWithArrayAsync(method: .get,
                                      path: "/users/\(owner)/repos",

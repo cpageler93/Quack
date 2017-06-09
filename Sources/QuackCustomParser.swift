@@ -50,7 +50,7 @@ public protocol QuackCustomModelParser {
 open class QuackArrayParserByIgnoringDictionaryKeys {
 
     public init() {}
-    
+
 }
 
 extension QuackArrayParserByIgnoringDictionaryKeys: QuackCustomArrayParser {

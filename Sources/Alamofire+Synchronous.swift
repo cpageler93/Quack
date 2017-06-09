@@ -13,7 +13,7 @@ extension DataRequest {
 
     /**
      Wait for the request to finish then return the response value.
-     
+
      - returns: The response.
      */
     public func response() -> DefaultDataResponse {
@@ -201,4 +201,5 @@ extension DownloadRequest {
     public func responsePropertyList(options: PropertyListSerialization.ReadOptions = PropertyListSerialization.ReadOptions()) -> DownloadResponse<Any> {
         return response(responseSerializer: DownloadRequest.propertyListResponseSerializer(options: options))
     }
+
 }

@@ -19,7 +19,7 @@ class GithubQuackTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
-    
+
     func testGithubRepositoryAsync() {
         let github = GithubClient()
         let repositoryExpectation = self.expectation(description: "Github Repositories")
@@ -35,7 +35,7 @@ class GithubQuackTests: XCTestCase {
         
         self.waitForExpectations(timeout: 15, handler: nil)
     }
-    
+
     func testGithubRepositoryBranches() {
         let github = GithubClient()
         let repo = GithubRepository("cpageler93/Quack")
@@ -57,7 +57,7 @@ class GithubQuackTests: XCTestCase {
         let service = DummyAccountServiceClient(urlString: "")
         XCTAssertNil(service)
     }
-    
+
     func testConsulAgentReload() {
         let consul = Consul()
         let result = consul.agentReload()
@@ -68,7 +68,7 @@ class GithubQuackTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
-    
+
     func testConsulAgentChecks() {
         let consul = Consul()
         let checks = consul.agentChecks()

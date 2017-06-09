@@ -25,7 +25,7 @@ public class ConsulAgentCheckOutput: QuackModel {
 }
 
 public class Consul: QuackClient {
-    
+
     public init() {
         super.init(url: URL(string: "http://localhost:8500")!)
     }
@@ -39,5 +39,5 @@ public class Consul: QuackClient {
                                 parser: QuackArrayParserByIgnoringDictionaryKeys(),
                                 model: ConsulAgentCheckOutput.self)
     }
-    
+
 }
