@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import Alamofire
 @testable import Quack
 
 public class ConsulAgentCheckOutput: QuackModel {
@@ -24,6 +25,30 @@ public class ConsulAgentCheckOutput: QuackModel {
 
 }
 
+public class ConsulKeyValuePair: QuackModel {
+    
+    var key: String
+    var value: String
+    
+    public required init?(json: JSON) {
+        guard
+            let jsonArray = json.array,
+            let firstJsonEntry = jsonArray.first,
+            let key = firstJsonEntry["Key"].string,
+            let value = firstJsonEntry["Value"].string
+            else { return nil }
+        
+        self.key = key
+        self.value = value
+    }
+    
+    public func decodedValue() -> String? {
+        guard let decodedData = NSData(base64Encoded: value) as Data? else { return nil }
+        return NSString(data: decodedData, encoding: String.Encoding.utf8.rawValue) as String?
+    }
+}
+
+
 public class Consul: QuackClient {
 
     public init() {
@@ -39,5 +64,51 @@ public class Consul: QuackClient {
                                 parser: QuackArrayParserByIgnoringDictionaryKeys(),
                                 model: ConsulAgentCheckOutput.self)
     }
-
+    
+    public func readKey(_ key: String) -> QuackResult<ConsulKeyValuePair> {
+        return respond(path: "/v1/kv/\(key)",
+            model: ConsulKeyValuePair.self)
+    }
+    
+    public func writeKey(_ key: String,
+                         value: String) -> QuackResult<Bool> {
+        return respond(method: .put,
+                       path: "/v1/kv/\(key)",
+                       params: ["dc" : "fra1"],
+                       encoding: URLEncoding.queryString,
+                       model: Bool.self,
+                       urlRequestModification: { (request) -> (URLRequest) in
+                        var newRequest = request
+                        newRequest.httpBody = value.data(using: String.Encoding.utf8)
+                        return newRequest
+        })
+    }
 }
+
+extension Consul {
+    
+    public func appendPath(_ path: String,
+                           withURLParams params: [String: String?]) -> String {
+        guard var urlComponents = URLComponents(string: path) else { return path }
+        var queryItems: [URLQueryItem] = urlComponents.queryItems ?? []
+        params.forEach { key, value in
+            let queryItem = URLQueryItem(name: key, value: value)
+            queryItems.append(queryItem)
+        }
+        urlComponents.queryItems = queryItems
+        if queryItems.count > 0, let encodedQuery = urlComponents.percentEncodedQuery {
+            return "\(urlComponents.path)?\(encodedQuery)"
+        } else {
+            return urlComponents.path
+        }
+    }
+    
+}
+
+extension Bool: QuackModel {
+    public init?(json: JSON) {
+        guard let bool = json.bool else { return nil }
+        self.init(bool)
+    }
+}
+

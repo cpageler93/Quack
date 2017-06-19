@@ -79,5 +79,24 @@ class GithubQuackTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
+    
+    func testConsulKeyValue() {
+        let consul = Consul()
+        let write = consul.writeKey("QuackKey", value: "QuackValue")
+        switch write {
+        case .success(let write):
+            XCTAssertTrue(write)
+        case .failure(let error):
+            XCTAssertNil(error)
+        }
+        
+        let key = consul.readKey("QuackKey")
+        switch key {
+        case .success(let key):
+            XCTAssertEqual(key.decodedValue() ?? "", "QuackValue")
+        case .failure(let error):
+            XCTAssertNil(error)
+        }
+    }
 
 }

@@ -36,6 +36,7 @@ open class QuackClient {
         
         self.manager = Alamofire.SessionManager(configuration: configuration,
                                                 serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
+        self.manager.startRequestsImmediately = false
     }
 
     convenience public init?(urlString: String,
@@ -59,13 +60,15 @@ open class QuackClient {
                                            encoding: ParameterEncoding = URLEncoding.default,
                                            validStatusCodes: CountableRange<Int> = 200..<300,
                                            parser: QuackCustomModelParser? = nil,
-                                           model: Model.Type) -> QuackResult<Model> {
+                                           model: Model.Type,
+                                           urlRequestModification: ((URLRequest) -> (URLRequest))? = nil) -> QuackResult<Model> {
         let result = respondWithJSON(method: method,
                                      path: path,
                                      params: params,
                                      headers: headers,
                                      encoding: encoding,
-                                     validStatusCodes: validStatusCodes)
+                                     validStatusCodes: validStatusCodes,
+                                     urlRequestModification: urlRequestModification)
         switch result {
         case .success(let json):
             return (parser ?? self).parseModel(json: json, model: model)
@@ -81,13 +84,15 @@ open class QuackClient {
                                                     encoding: ParameterEncoding = URLEncoding.default,
                                                     validStatusCodes: CountableRange<Int> = 200..<300,
                                                     parser: QuackCustomArrayParser? = nil,
-                                                    model: Model.Type) -> QuackResult<[Model]> {
+                                                    model: Model.Type,
+                                                    urlRequestModification: ((URLRequest) -> (URLRequest))? = nil) -> QuackResult<[Model]> {
         let result = respondWithJSON(method: method,
                                      path: path,
                                      params: params,
                                      headers: headers,
                                      encoding: encoding,
-                                     validStatusCodes: validStatusCodes)
+                                     validStatusCodes: validStatusCodes,
+                                     urlRequestModification: urlRequestModification)
         switch result {
         case .success(let json):
             return (parser ?? self).parseArray(json: json, model: model)
@@ -101,13 +106,15 @@ open class QuackClient {
                             params: [String: Any] = [:],
                             headers: [String: String] = [:],
                             encoding: ParameterEncoding = URLEncoding.default,
-                            validStatusCodes: CountableRange<Int> = 200..<300) -> QuackVoid {
+                            validStatusCodes: CountableRange<Int> = 200..<300,
+                            urlRequestModification: ((URLRequest) -> (URLRequest))? = nil) -> QuackVoid {
         let result = respondWithJSON(method: method,
                                      path: path,
                                      params: params,
                                      headers: headers,
                                      encoding: encoding,
-                                     validStatusCodes: validStatusCodes)
+                                     validStatusCodes: validStatusCodes,
+                                     urlRequestModification: urlRequestModification)
         switch result {
         case .success:
             return QuackResult.success()
@@ -126,13 +133,15 @@ open class QuackClient {
                                                 validStatusCodes: CountableRange<Int> = 200..<300,
                                                 parser: QuackCustomModelParser? = nil,
                                                 model: Model.Type,
+                                                urlRequestModification: ((URLRequest) -> (URLRequest))? = nil,
                                                 completion: @escaping (QuackResult<Model>) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
                              params: params,
                              headers: headers,
                              encoding: encoding,
-                             validStatusCodes: validStatusCodes) { result in
+                             validStatusCodes: validStatusCodes,
+                             urlRequestModification: urlRequestModification) { result in
                                 switch result {
                                 case .success(let json):
                                     completion((parser ?? self).parseModel(json: json, model: model))
@@ -150,13 +159,15 @@ open class QuackClient {
                                                          validStatusCodes: CountableRange<Int> = 200..<300,
                                                          parser: QuackCustomArrayParser? = nil,
                                                          model: Model.Type,
+                                                         urlRequestModification: ((URLRequest) -> (URLRequest))? = nil,
                                                          completion: @escaping (QuackResult<[Model]>) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
                              params: params,
                              headers: headers,
                              encoding: encoding,
-                             validStatusCodes: validStatusCodes) { result in
+                             validStatusCodes: validStatusCodes,
+                             urlRequestModification: urlRequestModification) { result in
                                 switch result {
                                 case .success(let json):
                                     completion((parser ?? self).parseArray(json: json, model: model))
@@ -172,13 +183,15 @@ open class QuackClient {
                                  headers: [String: String] = [:],
                                  encoding: ParameterEncoding = URLEncoding.default,
                                  validStatusCodes: CountableRange<Int> = 200..<300,
+                                 urlRequestModification: ((URLRequest) -> (URLRequest))? = nil,
                                  completion: @escaping (QuackVoid) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
                              params: params,
                              headers: headers,
                              encoding: encoding,
-                             validStatusCodes: validStatusCodes) { result in
+                             validStatusCodes: validStatusCodes,
+                             urlRequestModification: urlRequestModification) { result in
                                 switch result {
                                 case .success:
                                     completion(QuackResult.success())
@@ -195,14 +208,17 @@ open class QuackClient {
                                  params: [String: Any],
                                  headers: [String: String],
                                  encoding: ParameterEncoding,
-                                 validStatusCodes: CountableRange<Int>) -> QuackResult<JSON> {
+                                 validStatusCodes: CountableRange<Int>,
+                                 urlRequestModification: ((URLRequest) -> (URLRequest))?) -> QuackResult<JSON> {
         
         let request = dataRequest(method: method,
                                   path: path,
                                   params: params, 
                                   headers: headers,
                                   encoding: encoding,
-                                  validStatusCodes: validStatusCodes)
+                                  validStatusCodes: validStatusCodes,
+                                  urlRequestModification: urlRequestModification
+                                  )
         let response = request.responseData()
         switch response.result {
         case .success(let jsonData):
@@ -218,13 +234,15 @@ open class QuackClient {
                                       headers: [String: String],
                                       encoding: ParameterEncoding,
                                       validStatusCodes: CountableRange<Int>,
+                                      urlRequestModification: ((URLRequest) -> (URLRequest))?,
                                       completion: @escaping (QuackResult<JSON>) -> (Void)) {
         let request = dataRequest(method: method,
                                   path: path,
                                   params: params, 
                                   headers: headers,
                                   encoding: encoding,
-                                  validStatusCodes: validStatusCodes)
+                                  validStatusCodes: validStatusCodes,
+                                  urlRequestModification: urlRequestModification)
         request.responseData { response in
             switch response.result {
             case .success(let jsonData):
@@ -240,7 +258,9 @@ open class QuackClient {
                              params: [String: Any],
                              headers: [String: String],
                              encoding: ParameterEncoding,
-                             validStatusCodes: CountableRange<Int>) -> DataRequest {
+                             validStatusCodes: CountableRange<Int>,
+                             urlRequestModification: ((URLRequest) -> (URLRequest))?) -> DataRequest {
+        // create request
         let url = self.url.appendingPathComponent(path)
         var request = self.manager.request(url,
                                            method: method,
@@ -248,7 +268,18 @@ open class QuackClient {
                                            encoding: encoding,
                                            headers: headers)
         
+        // allow to modify when modification block was passed
+        if let urlRequest = request.request, let urlRequestModification = urlRequestModification {
+            let modifiedUrlRequest = urlRequestModification(urlRequest)
+            request = self.manager.request(modifiedUrlRequest)
+        }
+        
+        // start reuest
+        request.resume()
+        
+        // validate request
         request = request.validate(statusCode: validStatusCodes)
+        
         return request
     }
     
