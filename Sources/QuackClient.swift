@@ -242,11 +242,12 @@ open class QuackClient {
                              encoding: ParameterEncoding,
                              validStatusCodes: CountableRange<Int>) -> DataRequest {
         let url = self.url.appendingPathComponent(path)
-        var request = Alamofire.request(url,
-                                        method: method,
-                                        parameters: params,
-                                        encoding: encoding,
-                                        headers: headers)
+        var request = self.manager.request(url,
+                                           method: method,
+                                           parameters: params,
+                                           encoding: encoding,
+                                           headers: headers)
+        
         request = request.validate(statusCode: validStatusCodes)
         return request
     }
