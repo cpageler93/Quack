@@ -37,12 +37,7 @@ playground.xcworkspace
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
 # Packages/
 # Package.pins
-.build/build.db
-.build/debug
-.build/debug.yaml
-.build/dependencies-state.json
-.build/repositories
-.build/x86_64-apple-macosx10.10
+.build
 
 # CocoaPods
 #
