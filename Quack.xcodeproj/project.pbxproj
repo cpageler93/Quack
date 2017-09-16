@@ -326,7 +326,6 @@
 			buildPhases = (
 				OBJ_89 /* Sources */,
 				OBJ_95 /* Frameworks */,
-				5958C59E1F6D2CD200F3A2FC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -433,22 +432,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5958C59E1F6D2CD200F3A2FC /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "swift package update";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_103 /* Sources */ = {
