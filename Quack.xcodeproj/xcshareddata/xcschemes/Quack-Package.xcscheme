@@ -117,9 +117,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Quack::QuackTests"
-               BuildableName = "QuackTests.xctest"
-               BlueprintName = "QuackTests"
+               BlueprintIdentifier = "Quack::UnitTests"
+               BuildableName = "UnitTests.xctest"
+               BlueprintName = "UnitTests"
                ReferencedContainer = "container:Quack.xcodeproj">
             </BuildableReference>
          </TestableReference>

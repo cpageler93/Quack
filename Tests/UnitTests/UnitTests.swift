@@ -2,7 +2,7 @@ import XCTest
 import Foundation
 @testable import Quack
 
-class QuackTests: XCTestCase {
+class UnitTests: XCTestCase {
 
     static var allTests = [
         ("testGithub", testGithub),
