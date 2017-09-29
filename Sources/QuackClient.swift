@@ -9,6 +9,7 @@
 import Foundation
 import KituraNet
 import SwiftyJSON
+import Dispatch
 
 public enum QuackResult<T> {
     case success(T)
