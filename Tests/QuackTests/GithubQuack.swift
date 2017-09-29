@@ -13,22 +13,25 @@ class GithubClient: QuackClient {
     public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
         return respondWithArray(method: .get,
                                 path: "/users/\(owner)/repos",
+                                headers: ["User-Agent": "Quack-Client"],
                                 model: GithubRepository.self)
     }
 
     public func repositories(owner: String, completion: @escaping (QuackResult<[GithubRepository]>) -> (Void)) {
         return respondWithArrayAsync(method: .get,
                                      path: "/users/\(owner)/repos",
+                                     headers: ["User-Agent": "Quack-Client"],
                                      model: GithubRepository.self,
                                      completion: completion)
     }
 
     public func repositoryBranches(repository: GithubRepository) -> QuackResult<[GithubRepositoryBranch]> {
         guard let fullName = repository.fullName else {
-            return QuackResult.failure(QuackError.ErrorWithName("missing fullname"))
+            return QuackResult.failure(QuackError.errorWithName("missing fullname"))
         }
         return respondWithArray(method: .get,
                                 path: "/repos/\(fullName)/branches",
+                                headers: ["User-Agent": "Quack-Client"],
                                 model: GithubRepositoryBranch.self)
     }
 

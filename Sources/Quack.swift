@@ -9,7 +9,7 @@
 import Foundation
 
 public enum QuackError: Error {
-    case ModelParsingError
-    case JSONParsingError
-    case ErrorWithName(String)
+    case modelParsingError
+    case jsonParsingError
+    case errorWithName(String)
 }
