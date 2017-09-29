@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 import KituraNet
+
 @testable import Quack
 
 public class ConsulAgentCheckOutput: QuackModel {

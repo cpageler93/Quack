@@ -2,7 +2,19 @@ import XCTest
 import Foundation
 @testable import Quack
 
-class GithubQuackTests: XCTestCase {
+class QuackTests: XCTestCase {
+
+    static var allTests = [
+        ("testGithub", testGithub),
+        ("testGithubRepository", testGithubRepository),
+        ("testGithubRepositoryAsync", testGithubRepositoryAsync),
+        ("testGithubRepositoryBranches", testGithubRepositoryBranches),
+        ("testDummyAccountServiceWithValidURL", testDummyAccountServiceWithValidURL),
+        ("testDummyAccountServiceWithInvalidURL", testDummyAccountServiceWithInvalidURL),
+        ("testConsulAgentReload", testConsulAgentReload),
+        ("testConsulAgentChecks", testConsulAgentChecks),
+        ("testConsulKeyValue", testConsulKeyValue)
+    ]
 
     func testGithub() {
         let github = GithubClient()
