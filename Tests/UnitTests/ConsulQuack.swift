@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftyJSON
-import Alamofire
+import KituraNet
+
 @testable import Quack
 
 public class ConsulAgentCheckOutput: QuackModel {
@@ -43,8 +44,8 @@ public class ConsulKeyValuePair: QuackModel {
     }
     
     public func decodedValue() -> String? {
-        guard let decodedData = NSData(base64Encoded: value) as Data? else { return nil }
-        return NSString(data: decodedData, encoding: String.Encoding.utf8.rawValue) as String?
+        guard let decodedData = Data(base64Encoded: value) else { return nil }
+        return String(data: decodedData, encoding: String.Encoding.utf8)
     }
 }
 
@@ -73,14 +74,11 @@ public class Consul: QuackClient {
     public func writeKey(_ key: String,
                          value: String) -> QuackResult<Bool> {
         return respond(method: .put,
-                       path: "/v1/kv/\(key)",
-                       params: ["dc" : "fra1"],
-                       encoding: URLEncoding.queryString,
+                       path: buildPath("/v1/kv/\(key)", withParams: ["dc" : "fra1"]),
                        model: Bool.self,
-                       urlRequestModification: { (request) -> (URLRequest) in
-                        var newRequest = request
-                        newRequest.httpBody = value.data(using: String.Encoding.utf8)
-                        return newRequest
+                       requestModification: { (request) -> (ClientRequest) in
+                        request.write(from: value)
+                        return request
         })
     }
 }

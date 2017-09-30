@@ -66,7 +66,7 @@ extension QuackArrayParserByIgnoringDictionaryKeys: QuackCustomArrayParser {
             return QuackResult.success(result)
         }
         
-        return QuackResult.failure(QuackError.JSONParsingError)
+        return QuackResult.failure(QuackError.jsonParsingError)
     }
     
 }

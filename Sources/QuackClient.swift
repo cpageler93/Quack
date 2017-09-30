@@ -7,45 +7,40 @@
 //
 
 import Foundation
-import Alamofire
+import KituraNet
 import SwiftyJSON
+import Dispatch
 
 public enum QuackResult<T> {
     case success(T)
-    case failure(Error)
+    case failure(Swift.Error)
 }
 
 public typealias QuackVoid = QuackResult<Void>
 
 open class QuackClient {
+    
+    public enum HTTPMethod: String {
+        case get
+        case post
+        case patch
+        case put
+        case delete
+    }
 
     public private(set) var url: URL
-    let manager: Alamofire.SessionManager
-
+    
     // MARK: - Init
 
     public init(url: URL,
-                timeoutInterval: TimeInterval = 5,
-                serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
+                timeoutInterval: TimeInterval = 5) {
         self.url = url
-        
-        // Setup Alamofire
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForResource = timeoutInterval
-        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
-        
-        self.manager = Alamofire.SessionManager(configuration: configuration,
-                                                serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
-        self.manager.startRequestsImmediately = false
     }
 
     convenience public init?(urlString: String,
-                             timeoutInterval: TimeInterval = 5,
-                             serverTrustPolicies: [String: ServerTrustPolicy] = [:]) {
+                             timeoutInterval: TimeInterval = 5) {
        if let url = URL(string: urlString) {
-            self.init(url: url,
-                      timeoutInterval: timeoutInterval,
-                      serverTrustPolicies: serverTrustPolicies)
+            self.init(url: url, timeoutInterval: timeoutInterval)
        } else {
          return nil
        }
@@ -55,20 +50,18 @@ open class QuackClient {
     
     public func respond<Model: QuackModel>(method: HTTPMethod = .get,
                                            path: String,
-                                           params: [String: Any] = [:],
+                                           body: [String: Any] = [:],
                                            headers: [String: String] = [:],
-                                           encoding: ParameterEncoding = URLEncoding.default,
                                            validStatusCodes: CountableRange<Int> = 200..<300,
                                            parser: QuackCustomModelParser? = nil,
                                            model: Model.Type,
-                                           urlRequestModification: ((URLRequest) -> (URLRequest))? = nil) -> QuackResult<Model> {
+                                           requestModification: ((ClientRequest) -> (ClientRequest))? = nil) -> QuackResult<Model> {
         let result = respondWithJSON(method: method,
                                      path: path,
-                                     params: params,
+                                     body: body,
                                      headers: headers,
-                                     encoding: encoding,
                                      validStatusCodes: validStatusCodes,
-                                     urlRequestModification: urlRequestModification)
+                                     requestModification: requestModification)
         switch result {
         case .success(let json):
             return (parser ?? self).parseModel(json: json, model: model)
@@ -79,20 +72,18 @@ open class QuackClient {
 
     public func respondWithArray<Model: QuackModel>(method: HTTPMethod = .get,
                                                     path: String,
-                                                    params: [String: Any] = [:],
+                                                    body: [String: Any] = [:],
                                                     headers: [String: String] = [:],
-                                                    encoding: ParameterEncoding = URLEncoding.default,
                                                     validStatusCodes: CountableRange<Int> = 200..<300,
                                                     parser: QuackCustomArrayParser? = nil,
                                                     model: Model.Type,
-                                                    urlRequestModification: ((URLRequest) -> (URLRequest))? = nil) -> QuackResult<[Model]> {
+                                                    requestModification: ((ClientRequest) -> (ClientRequest))? = nil) -> QuackResult<[Model]> {
         let result = respondWithJSON(method: method,
                                      path: path,
-                                     params: params,
+                                     body: body,
                                      headers: headers,
-                                     encoding: encoding,
                                      validStatusCodes: validStatusCodes,
-                                     urlRequestModification: urlRequestModification)
+                                     requestModification: requestModification)
         switch result {
         case .success(let json):
             return (parser ?? self).parseArray(json: json, model: model)
@@ -103,18 +94,16 @@ open class QuackClient {
     
     public func respondVoid(method: HTTPMethod = .get,
                             path: String,
-                            params: [String: Any] = [:],
+                            body: [String: Any] = [:],
                             headers: [String: String] = [:],
-                            encoding: ParameterEncoding = URLEncoding.default,
                             validStatusCodes: CountableRange<Int> = 200..<300,
-                            urlRequestModification: ((URLRequest) -> (URLRequest))? = nil) -> QuackVoid {
+                            requestModification: ((ClientRequest) -> (ClientRequest))? = nil) -> QuackVoid {
         let result = respondWithJSON(method: method,
                                      path: path,
-                                     params: params,
+                                     body: body,
                                      headers: headers,
-                                     encoding: encoding,
                                      validStatusCodes: validStatusCodes,
-                                     urlRequestModification: urlRequestModification)
+                                     requestModification: requestModification)
         switch result {
         case .success:
             return QuackResult.success()
@@ -127,21 +116,19 @@ open class QuackClient {
     
     public func respondAsync<Model: QuackModel>(method: HTTPMethod = .get,
                                                 path: String,
-                                                params: [String: Any] = [:],
+                                                body: [String: Any] = [:],
                                                 headers: [String: String] = [:],
-                                                encoding: ParameterEncoding = URLEncoding.default,
                                                 validStatusCodes: CountableRange<Int> = 200..<300,
                                                 parser: QuackCustomModelParser? = nil,
                                                 model: Model.Type,
-                                                urlRequestModification: ((URLRequest) -> (URLRequest))? = nil,
+                                                requestModification: ((ClientRequest) -> (ClientRequest))? = nil,
                                                 completion: @escaping (QuackResult<Model>) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
-                             params: params,
+                             body: body,
                              headers: headers,
-                             encoding: encoding,
                              validStatusCodes: validStatusCodes,
-                             urlRequestModification: urlRequestModification) { result in
+                             requestModification: requestModification) { result in
                                 switch result {
                                 case .success(let json):
                                     completion((parser ?? self).parseModel(json: json, model: model))
@@ -153,21 +140,19 @@ open class QuackClient {
     
     public func respondWithArrayAsync<Model: QuackModel>(method: HTTPMethod = .get,
                                                          path: String,
-                                                         params: [String: Any] = [:],
+                                                         body: [String: Any] = [:],
                                                          headers: [String: String] = [:],
-                                                         encoding: ParameterEncoding = URLEncoding.default,
                                                          validStatusCodes: CountableRange<Int> = 200..<300,
                                                          parser: QuackCustomArrayParser? = nil,
                                                          model: Model.Type,
-                                                         urlRequestModification: ((URLRequest) -> (URLRequest))? = nil,
+                                                         requestModification: ((ClientRequest) -> (ClientRequest))? = nil,
                                                          completion: @escaping (QuackResult<[Model]>) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
-                             params: params,
+                             body: body,
                              headers: headers,
-                             encoding: encoding,
                              validStatusCodes: validStatusCodes,
-                             urlRequestModification: urlRequestModification) { result in
+                             requestModification: requestModification) { result in
                                 switch result {
                                 case .success(let json):
                                     completion((parser ?? self).parseArray(json: json, model: model))
@@ -179,19 +164,17 @@ open class QuackClient {
     
     public func respondVoidAsync(method: HTTPMethod = .get,
                                  path: String,
-                                 params: [String: Any] = [:],
+                                 body: [String: Any] = [:],
                                  headers: [String: String] = [:],
-                                 encoding: ParameterEncoding = URLEncoding.default,
                                  validStatusCodes: CountableRange<Int> = 200..<300,
-                                 urlRequestModification: ((URLRequest) -> (URLRequest))? = nil,
+                                 requestModification: ((ClientRequest) -> (ClientRequest))? = nil,
                                  completion: @escaping (QuackVoid) -> (Void)) {
         respondWithJSONAsync(method: method,
                              path: path,
-                             params: params,
+                             body: body,
                              headers: headers,
-                             encoding: encoding,
                              validStatusCodes: validStatusCodes,
-                             urlRequestModification: urlRequestModification) { result in
+                             requestModification: requestModification) { result in
                                 switch result {
                                 case .success:
                                     completion(QuackResult.success())
@@ -201,84 +184,149 @@ open class QuackClient {
         }
     }
     
+    // MARK: - Path Builder
+    
+    public func buildPath(_ path: String, withParams params: [String: String]) -> String {
+        var urlComponents = URLComponents()
+        urlComponents.path = path
+        
+        var queryItems = [URLQueryItem]()
+        for (key, value) in params {
+            let queryItem = URLQueryItem(name: key, value: value)
+            queryItems.append(queryItem)
+        }
+        urlComponents.queryItems = queryItems
+        
+        var query = ""
+        if let percentEncodedQuery = urlComponents.percentEncodedQuery {
+            query = "?\(percentEncodedQuery)"
+        }
+        return "\(urlComponents.percentEncodedPath)\(query)"
+    }
+    
     // MARK: - Alamofire Requests
     
     private func respondWithJSON(method: HTTPMethod,
                                  path: String,
-                                 params: [String: Any],
+                                 body: [String: Any],
                                  headers: [String: String],
-                                 encoding: ParameterEncoding,
                                  validStatusCodes: CountableRange<Int>,
-                                 urlRequestModification: ((URLRequest) -> (URLRequest))?) -> QuackResult<JSON> {
+                                 requestModification: ((ClientRequest) -> (ClientRequest))?) -> QuackResult<JSON> {
+        var response: ClientResponse? = nil
         
-        let request = dataRequest(method: method,
-                                  path: path,
-                                  params: params, 
-                                  headers: headers,
-                                  encoding: encoding,
-                                  validStatusCodes: validStatusCodes,
-                                  urlRequestModification: urlRequestModification
-                                  )
-        let response = request.responseData()
-        switch response.result {
-        case .success(let jsonData):
-            return QuackResult.success(JSON(data: jsonData))
-        case .failure(let error):
-            return QuackResult.failure(error)
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        self.dataRequest(method: method,
+                         path: path,
+                         body: body,
+                         headers: headers,
+                         validStatusCodes: validStatusCodes,
+                         requestModification: requestModification)
+        { r in
+            response = r
+            dispatchGroup.leave()
         }
+        dispatchGroup.wait()
+        
+        var result = QuackResult<JSON>.failure(QuackError.errorWithName("Failed handle client response"))
+        self.handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
+            result = r
+        }
+        
+        return result
     }
     
     private func respondWithJSONAsync(method: HTTPMethod,
                                       path: String,
-                                      params: [String: Any],
+                                      body: [String: Any],
                                       headers: [String: String],
-                                      encoding: ParameterEncoding,
                                       validStatusCodes: CountableRange<Int>,
-                                      urlRequestModification: ((URLRequest) -> (URLRequest))?,
+                                      requestModification: ((ClientRequest) -> (ClientRequest))?,
                                       completion: @escaping (QuackResult<JSON>) -> (Void)) {
-        let request = dataRequest(method: method,
-                                  path: path,
-                                  params: params, 
-                                  headers: headers,
-                                  encoding: encoding,
-                                  validStatusCodes: validStatusCodes,
-                                  urlRequestModification: urlRequestModification)
-        request.responseData { response in
-            switch response.result {
-            case .success(let jsonData):
-                completion(QuackResult.success(JSON(data: jsonData)))
-            case .failure(let error):
-                completion(QuackResult.failure(error))
-            }
+        dataRequest(method: method,
+                    path: path,
+                    body: body,
+                    headers: headers,
+                    validStatusCodes: validStatusCodes,
+                    requestModification: requestModification)
+        { response in
+            self.handleClientResponse(response, validStatusCodes: validStatusCodes, completion: completion)
         }
     }
     
-    private func dataRequest(method: HTTPMethod,
-                             path: String,
-                             params: [String: Any],
-                             headers: [String: String],
-                             encoding: ParameterEncoding,
-                             validStatusCodes: CountableRange<Int>,
-                             urlRequestModification: ((URLRequest) -> (URLRequest))?) -> DataRequest {
-        // create request
-        let url = self.url.appendingPathComponent(path)
-        var request = self.manager.request(url,
-                                           method: method,
-                                           parameters: params,
-                                           encoding: encoding,
-                                           headers: headers)
-        
-        // allow to modify when modification block was passed
-        if let urlRequest = request.request, let urlRequestModification = urlRequestModification {
-            let modifiedUrlRequest = urlRequestModification(urlRequest)
-            request = self.manager.request(modifiedUrlRequest)
+    private func handleClientResponse(_ response: ClientResponse?,
+                                      validStatusCodes: CountableRange<Int>,
+                                      completion: @escaping (QuackResult<JSON>) -> (Void)) {
+        guard let response = response else {
+            completion(QuackResult.failure(QuackError.errorWithName("No Response")))
+            return
         }
         
-        // start reuest
-        request.resume()
+        // TODO: Validate response code
+        guard validStatusCodes.contains(response.status) else {
+            completion(QuackResult.failure(QuackError.invalidStatusCode(response.status)))
+            return
+        }
         
-        // validate request
-        request = request.validate(statusCode: validStatusCodes)
+        var responseData = Data()
+        do {
+            try response.readAllData(into: &responseData)
+            guard let responseString = String(data: responseData, encoding: String.Encoding.utf8) else {
+                completion(QuackResult.failure(QuackError.jsonParsingError))
+                return
+            }
+            let json = JSON.parse(string: responseString)
+            completion(QuackResult.success(json))
+        } catch {
+            completion(QuackResult.failure(QuackError.jsonParsingError))
+        }
+    }
+    
+    @discardableResult
+    private func dataRequest(method: HTTPMethod,
+                             path: String,
+                             body: [String: Any],
+                             headers: [String: String],
+                             validStatusCodes: CountableRange<Int>,
+                             requestModification: ((ClientRequest) -> (ClientRequest))?,
+                             callback: @escaping ClientRequest.Callback) -> ClientRequest {
+        // create request
+        let url = self.url.appendingPathComponent(path)
+        
+        var request = HTTP.request(url.absoluteString, callback: callback)
+        if
+            let scheme = url.scheme,
+            let host = url.host,
+            let port = url.port
+        {
+            request = HTTP.request([
+                ClientRequest.Options.method(method.rawValue),
+                ClientRequest.Options.schema(scheme),
+                ClientRequest.Options.hostname(host),
+                ClientRequest.Options.port(Int16(port)),
+                ClientRequest.Options.path(url.path)
+            ], callback: callback)
+        }
+        
+        request.headers = headers
+
+        // allow to modify when modification block was passed
+        if let requestModification = requestModification {
+            request = requestModification(request)
+        }
+        
+        // write json to request body
+        do {
+            if body.count > 0 {
+                let json = JSON(body)
+                let data = try json.rawData()
+                request.write(from: data)
+            }
+        } catch {
+            
+        }
+        
+        request.end()
         
         return request
     }
@@ -291,7 +339,7 @@ extension QuackClient: QuackCustomModelParser {
         if let model = Model(json: json) {
             return QuackResult.success(model)
         } else {
-            return QuackResult.failure(QuackError.ModelParsingError)
+            return QuackResult.failure(QuackError.modelParsingError)
         }
     }
     
@@ -309,7 +357,7 @@ extension QuackClient: QuackCustomArrayParser {
             }
             return QuackResult.success(models)
         } else {
-            return QuackResult.failure(QuackError.JSONParsingError)
+            return QuackResult.failure(QuackError.jsonParsingError)
         }
     }
     
