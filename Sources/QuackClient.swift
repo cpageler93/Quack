@@ -229,7 +229,7 @@ open class QuackClient {
         dispatchGroup.wait()
         
         var result = QuackResult<JSON>.failure(QuackError.errorWithName("Failed handle client response"))
-        self.handleClientResponse(response) { r in
+        self.handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
             result = r
         }
         
@@ -250,11 +250,12 @@ open class QuackClient {
                     validStatusCodes: validStatusCodes,
                     requestModification: requestModification)
         { response in
-            self.handleClientResponse(response, completion: completion)
+            self.handleClientResponse(response, validStatusCodes: validStatusCodes, completion: completion)
         }
     }
     
     private func handleClientResponse(_ response: ClientResponse?,
+                                      validStatusCodes: CountableRange<Int>,
                                       completion: @escaping (QuackResult<JSON>) -> (Void)) {
         guard let response = response else {
             completion(QuackResult.failure(QuackError.errorWithName("No Response")))
@@ -262,6 +263,10 @@ open class QuackClient {
         }
         
         // TODO: Validate response code
+        guard validStatusCodes.contains(response.status) else {
+            completion(QuackResult.failure(QuackError.invalidStatusCode(response.status)))
+            return
+        }
         
         var responseData = Data()
         do {

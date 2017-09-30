@@ -110,5 +110,25 @@ class UnitTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
+    
+    func testConsulReadInvalidKey() {
+        let consul = Consul()
+        let key = consul.readKey("FooBar")
+        switch key {
+        case .success:
+            XCTFail("Should fail because FooBar is an invalid key")
+        case .failure(let error):
+            guard let error = error as? QuackError else {
+                XCTFail("Should be an QuackError")
+                return
+            }
+            switch error {
+            case .invalidStatusCode(let code):
+                XCTAssertEqual(code, 404)
+            default:
+                XCTFail("Should fail with invalidStatusCode Error")
+            }
+        }
+    }
 
 }

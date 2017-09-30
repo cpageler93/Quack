@@ -12,4 +12,5 @@ public enum QuackError: Error {
     case modelParsingError
     case jsonParsingError
     case errorWithName(String)
+    case invalidStatusCode(Int)
 }
