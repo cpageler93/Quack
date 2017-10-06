@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftyJSON
-import KituraNet
+import HTTP
 
 @testable import Quack
 
@@ -76,8 +76,8 @@ public class Consul: QuackClient {
         return respond(method: .put,
                        path: buildPath("/v1/kv/\(key)", withParams: ["dc" : "fra1"]),
                        model: Bool.self,
-                       requestModification: { (request) -> (ClientRequest) in
-                        request.write(from: value)
+                       requestModification: { (request) -> (Request) in
+                        request.body = Body(value)
                         return request
         })
     }

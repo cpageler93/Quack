@@ -1,11 +1,21 @@
-// swift-tools-version:3.1
+// swift-tools-version:4.0
 
 import PackageDescription
 
 let package = Package(
     name: "Quack",
+    products: [
+        .library(name: "Quack", targets: ["Quack"]),
+    ],
     dependencies: [
-        .Package(url: "https://github.com/IBM-Swift/Kitura-net.git", majorVersion: 1),
-        .Package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", majorVersion: 17)
+        .package(url: "https://github.com/vapor/engine.git", from: "2.2.1"),
+        .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", from: "17.0.0")
+    ],
+    targets: [
+        .target(name: "Quack", dependencies: [
+            .byNameItem(name: "HTTP"),
+            .byNameItem(name: "SwiftyJSON")
+        ]),
+        .testTarget(name: "UnitTests", dependencies: ["Quack"])
     ]
 )
