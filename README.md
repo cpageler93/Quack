@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/cpageler93/Quack/blob/master/LICENSE)
 
 
-`Quack` is an addition to [Alamofire](https://github.com/Alamofire/Alamofire) which makes HTTP(s) calls easier and syntax cleaner.
+`Quack` is an easy to use HTTP Client.
 
 With `Quack` HTTP(s) calls look that beautiful and easy:
 
