@@ -20,11 +20,11 @@ internal typealias HTTPRequest = Request
 internal typealias HTTPMethod = HTTP.Method
 
 
-public extension Quack {
+extension Quack {
     
-    public class Client: ClientBase {
+    open class Client: ClientBase {
         
-        public override func _respondWithJSON(method: Quack.HTTP.Method,
+        open override func _respondWithJSON(method: Quack.HTTP.Method,
                                               path: String,
                                               body: [String : Any],
                                               headers: [String : String],
@@ -94,7 +94,7 @@ public extension Quack {
             
         }
         
-        public override func _respondWithJSONAsync(method: Quack.HTTP.Method,
+        open override func _respondWithJSONAsync(method: Quack.HTTP.Method,
                                                    path: String,
                                                    body: [String: Any],
                                                    headers: [String: String],

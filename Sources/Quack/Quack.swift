@@ -13,9 +13,9 @@ import QuackBase
 import Alamofire
 
 
-public extension Quack {
+extension Quack {
     
-    public class Client: ClientBase {
+    open class Client: ClientBase {
         
         private lazy var manager: Alamofire.SessionManager = {
             [unowned self] in
@@ -33,7 +33,7 @@ public extension Quack {
             
         }()
         
-        public override func _respondWithJSON(method: Quack.HTTP.Method,
+        open override func _respondWithJSON(method: Quack.HTTP.Method,
                                               path: String,
                                               body: [String : Any],
                                               headers: [String : String],
@@ -52,7 +52,7 @@ public extension Quack {
             }
         }
         
-        public override func _respondWithJSONAsync(method: Quack.HTTP.Method,
+        open override func _respondWithJSONAsync(method: Quack.HTTP.Method,
                                                    path: String,
                                                    body: [String: Any],
                                                    headers: [String: String],
@@ -98,12 +98,8 @@ public extension Quack {
                                                    encoding: URLEncoding.default,
                                                    headers: request.headers)
             
-            print("http request: \(httpRequest.request)")
-            
             // start reuest
             httpRequest.resume()
-            
-            print("response: \(httpRequest.responseJSON())")
             
             // validate request
             httpRequest = httpRequest.validate(statusCode: validStatusCodes)
