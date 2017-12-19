@@ -1,8 +1,19 @@
+//
+//  GithubQuack.swift
+//  Quack
+//
+//  Created by Christoph Pageler on 25.05.17.
+//
+//
+
 import Foundation
 import SwiftyJSON
-@testable import Quack
 
-class GithubClient: QuackClient {
+@testable import QuackBase
+@testable import QuackLinux
+
+
+class GithubClient: Quack.Client {
 
     init() {
        super.init(url: URL(string: "https://api.github.com")!)
@@ -10,14 +21,15 @@ class GithubClient: QuackClient {
 
     // MARK: - Repository Methods
 
-    public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
+    public func repositories(owner: String) -> Quack.Result<[GithubRepository]> {
         return respondWithArray(method: .get,
                                 path: "/users/\(owner)/repos",
                                 headers: ["User-Agent": "Quack-Client"],
                                 model: GithubRepository.self)
     }
 
-    public func repositories(owner: String, completion: @escaping (QuackResult<[GithubRepository]>) -> (Void)) {
+    public func repositories(owner: String,
+                             completion: @escaping (Quack.Result<[GithubRepository]>) -> (Void)) {
         return respondWithArrayAsync(method: .get,
                                      path: "/users/\(owner)/repos",
                                      headers: ["User-Agent": "Quack-Client"],
@@ -25,9 +37,9 @@ class GithubClient: QuackClient {
                                      completion: completion)
     }
 
-    public func repositoryBranches(repository: GithubRepository) -> QuackResult<[GithubRepositoryBranch]> {
+    public func repositoryBranches(repository: GithubRepository) -> Quack.Result<[GithubRepositoryBranch]> {
         guard let fullName = repository.fullName else {
-            return QuackResult.failure(QuackError.errorWithName("missing fullname"))
+            return .failure(.errorWithName("missing fullname"))
         }
         return respondWithArray(method: .get,
                                 path: "/repos/\(fullName)/branches",
@@ -37,7 +49,9 @@ class GithubClient: QuackClient {
 
 }
 
-class GithubRepository: QuackModel {
+
+class GithubRepository: Quack.Model {
+    
     var name: String?
     var fullName: String?
     var owner: String?
@@ -51,12 +65,16 @@ class GithubRepository: QuackModel {
         self.fullName = json["full_name"].string
         self.owner = json["owner"]["login"].string
     }
+    
 }
 
-class GithubRepositoryBranch: QuackModel {
+
+class GithubRepositoryBranch: Quack.Model {
+    
     var name: String?
     
     required init?(json: JSON) {
         self.name = json["name"].string
     }
+    
 }

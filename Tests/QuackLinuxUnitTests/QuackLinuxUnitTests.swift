@@ -1,9 +1,18 @@
+//
+//  QuackLinuxUnitTests.swift
+//  QuackLinuxUnitTests
+//
+//  Created by Christoph Pageler on 18.12.17.
+//
+
 import XCTest
 import Foundation
-@testable import Quack
 
-class UnitTests: XCTestCase {
+@testable import QuackBase
+@testable import QuackLinux
 
+class QuackLinuxUnitTests: XCTestCase {
+    
     static var allTests = [
         ("testGithub", testGithub),
         ("testGithubRepository", testGithubRepository),
@@ -15,12 +24,12 @@ class UnitTests: XCTestCase {
         ("testConsulAgentChecks", testConsulAgentChecks),
         ("testConsulKeyValue", testConsulKeyValue)
     ]
-
+    
     func testGithub() {
         let github = GithubClient()
         XCTAssertEqual(github.url.absoluteString, "https://api.github.com")
     }
-
+    
     func testGithubRepository() {
         let github = GithubClient()
         let repos = github.repositories(owner: "cpageler93")
@@ -31,7 +40,7 @@ class UnitTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
-
+    
     func testGithubRepositoryAsync() {
         let github = GithubClient()
         let repositoryExpectation = self.expectation(description: "Github Repositories")
@@ -47,7 +56,7 @@ class UnitTests: XCTestCase {
         
         self.waitForExpectations(timeout: 15, handler: nil)
     }
-
+    
     func testGithubRepositoryBranches() {
         let github = GithubClient()
         let repo = GithubRepository("cpageler93/Quack")
@@ -59,17 +68,17 @@ class UnitTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
-
+    
     func testDummyAccountServiceWithValidURL() {
         let service = DummyAccountServiceClient(urlString: "https://hellothisisurl.com")
         XCTAssertEqual(service?.url.absoluteString, "https://hellothisisurl.com")
     }
-
+    
     func testDummyAccountServiceWithInvalidURL() {
         let service = DummyAccountServiceClient(urlString: "")
         XCTAssertNil(service)
     }
-
+    
     func testConsulAgentReload() {
         let consul = Consul()
         let result = consul.agentReload()
@@ -80,7 +89,7 @@ class UnitTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
-
+    
     func testConsulAgentChecks() {
         let consul = Consul()
         let checks = consul.agentChecks()
@@ -118,7 +127,7 @@ class UnitTests: XCTestCase {
         case .success:
             XCTFail("Should fail because FooBar is an invalid key")
         case .failure(let error):
-            guard let error = error as? QuackError else {
+            guard let error = error as? Quack.Error else {
                 XCTFail("Should be an QuackError")
                 return
             }
@@ -130,5 +139,6 @@ class UnitTests: XCTestCase {
             }
         }
     }
-
+    
 }
+

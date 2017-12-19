@@ -1,0 +1,120 @@
+//
+//  Quack.swift
+//  Quack
+//
+//  Created by Christoph on 16.05.17.
+//
+//
+
+import Foundation
+import Result
+import SwiftyJSON
+import QuackBase
+import HTTP
+import Sockets
+import TLS
+
+
+internal typealias HTTPClient = Client
+internal typealias HTTPRequest = Request
+internal typealias HTTPMethod = HTTP.Method
+
+
+public extension Quack {
+    
+    public class Client: ClientBase {
+        
+        public override func _respondWithJSON(method: Quack.HTTP.Method,
+                                              path: String,
+                                              body: [String : Any],
+                                              headers: [String : String],
+                                              validStatusCodes: CountableRange<Int>,
+                                              requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<JSON> {
+            guard
+                let scheme = self.url.scheme,
+                let host = self.url.host,
+                let httpSocket = try? TCPInternetSocket(scheme: scheme,
+                                                        hostname: host,
+                                                        port: UInt16(self.url.port ?? 80)),
+                var client = try? BasicClient(httpSocket) as HTTPClient
+            else {
+                return .failure(.errorWithName("Failed to setup HTTP Socket"))
+            }
+    
+            if scheme == "https" {
+                guard
+                    let newSocket = try? TCPInternetSocket(scheme: scheme,
+                                                           hostname: host,
+                                                           port: UInt16(self.url.port ?? 443)),
+                    let httpsSocket = try? TLS.InternetSocket(newSocket, Context(.client)),
+                    let httpsClient = try? BasicClient(httpsSocket)
+                else {
+                    return .failure(.errorWithName("Failed to setup HTTPS Socket"))
+                }
+                client = httpsClient
+            }
+    
+            // create request
+            var request = Quack.Request(method: method,
+                                        uri: path,
+                                        headers: headers,
+                                        body: JSON(body).rawString() ?? "")
+            
+            // allow to modify the request from outside
+            if let rmod = requestModification {
+                request = rmod(request)
+            }
+            
+            // transform request
+            var httpHeaders = [HeaderKey: String]()
+            for header in request.headers {
+                httpHeaders[HeaderKey(header.key)] = header.value
+            }
+            let httpRequest = HTTPRequest(method: HTTPMethod(request.method.stringValue()),
+                                          uri: request.uri,
+                                          version: Version(major: 1, minor: 1),
+                                          headers: httpHeaders,
+                                          body: Body(request.body ?? ""))
+    
+            // send request
+            guard let httpResponse = try? client.respond(to: httpRequest) else {
+                return .failure(.errorWithName("Failed to respond"))
+            }
+    
+            // transform response
+            let response = Response(statusCode: httpResponse.status.statusCode,
+                                    body: httpResponse.body.bytes?.makeString())
+            
+            var result = Quack.Result<JSON>.failure(.errorWithName("Failed handle client response"))
+            self._handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
+                result = r
+            }
+    
+            return result
+            
+        }
+        
+        public override func _respondWithJSONAsync(method: Quack.HTTP.Method,
+                                                   path: String,
+                                                   body: [String: Any],
+                                                   headers: [String: String],
+                                                   validStatusCodes: CountableRange<Int>,
+                                                   requestModification: ((Quack.Request) -> (Quack.Request))?,
+                                                   completion: @escaping (Quack.Result<JSON>) -> (Swift.Void)) {
+            DispatchQueue.global(qos: .background).async {
+                let result = self._respondWithJSON(method: method,
+                                                   path: path,
+                                                   body: body,
+                                                   headers: headers,
+                                                   validStatusCodes: validStatusCodes,
+                                                   requestModification: requestModification)
+                DispatchQueue.main.async {
+                    completion(result)
+                }
+            }
+        }
+        
+    }
+    
+}
+

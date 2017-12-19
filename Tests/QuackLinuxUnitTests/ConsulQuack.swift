@@ -10,9 +10,12 @@ import Foundation
 import SwiftyJSON
 import HTTP
 
-@testable import Quack
+@testable import QuackBase
+@testable import QuackLinux
 
-public class ConsulAgentCheckOutput: QuackModel {
+
+public class ConsulAgentCheckOutput: Quack.Model {
+    
     var node: String
     var checkID: String
 
@@ -26,7 +29,8 @@ public class ConsulAgentCheckOutput: QuackModel {
 
 }
 
-public class ConsulKeyValuePair: QuackModel {
+
+public class ConsulKeyValuePair: Quack.Model {
     
     var key: String
     var value: String
@@ -47,41 +51,45 @@ public class ConsulKeyValuePair: QuackModel {
         guard let decodedData = Data(base64Encoded: value) else { return nil }
         return String(data: decodedData, encoding: String.Encoding.utf8)
     }
+    
 }
 
 
-public class Consul: QuackClient {
+public class Consul: Quack.Client {
 
     public init() {
         super.init(url: URL(string: "http://localhost:8500")!)
     }
     
-    public func agentReload() -> QuackVoid {
+    public func agentReload() -> Quack.Void {
         return respondVoid(method: .put, path: "/v1/agent/reload")
     }
     
-    public func agentChecks() -> QuackResult<[ConsulAgentCheckOutput]> {
+    public func agentChecks() -> Quack.Result<[ConsulAgentCheckOutput]> {
         return respondWithArray(path: "/v1/agent/checks",
-                                parser: QuackArrayParserByIgnoringDictionaryKeys(),
+                                parser: Quack.ArrayParserByIgnoringDictionaryKeys(),
                                 model: ConsulAgentCheckOutput.self)
     }
     
-    public func readKey(_ key: String) -> QuackResult<ConsulKeyValuePair> {
+    public func readKey(_ key: String) -> Quack.Result<ConsulKeyValuePair> {
         return respond(path: "/v1/kv/\(key)",
             model: ConsulKeyValuePair.self)
     }
     
     public func writeKey(_ key: String,
-                         value: String) -> QuackResult<Bool> {
+                         value: String) -> Quack.Result<Bool> {
         return respond(method: .put,
                        path: buildPath("/v1/kv/\(key)", withParams: ["dc" : "fra1"]),
                        model: Bool.self,
-                       requestModification: { (request) -> (Request) in
-                        request.body = Body(value)
-                        return request
+                       requestModification: { (request) -> (Quack.Request) in
+                        var newRequest = request
+                        newRequest.body = value
+                        return newRequest
         })
     }
+    
 }
+
 
 extension Consul {
     
@@ -103,10 +111,13 @@ extension Consul {
     
 }
 
-extension Bool: QuackModel {
+
+extension Bool: Quack.Model {
+    
     public init?(json: JSON) {
         guard let bool = json.bool else { return nil }
         self.init(bool)
     }
+    
 }
 
