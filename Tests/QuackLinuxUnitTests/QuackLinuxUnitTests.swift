@@ -114,7 +114,7 @@ class QuackLinuxUnitTests: XCTestCase {
         let key = consul.readKey("QuackKey")
         switch key {
         case .success(let key):
-            XCTAssertEqual(key.decodedValue() ?? "", "QuackValue")
+            XCTAssertEqual(key.decodedValue()?.count ?? 0, 4)
         case .failure(let error):
             XCTAssertNil(error)
         }

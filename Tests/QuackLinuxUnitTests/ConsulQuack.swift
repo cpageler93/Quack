@@ -58,7 +58,7 @@ public class ConsulKeyValuePair: Quack.Model {
 public class Consul: Quack.Client {
 
     public init() {
-        super.init(url: URL(string: "http://localhost:8500")!)
+        super.init(url: URL(string: "http://127.0.0.1:8500")!)
     }
     
     public func agentReload() -> Quack.Void {
@@ -83,7 +83,7 @@ public class Consul: Quack.Client {
                        model: Bool.self,
                        requestModification: { (request) -> (Quack.Request) in
                         var newRequest = request
-                        newRequest.body = value
+                        newRequest.body = [:]
                         return newRequest
         })
     }

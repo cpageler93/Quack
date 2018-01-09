@@ -55,10 +55,11 @@ extension Quack {
             }
     
             // create request
+
             var request = Quack.Request(method: method,
                                         uri: path,
                                         headers: headers,
-                                        body: JSON(body).rawString() ?? "")
+                                        body: body)
             
             // allow to modify the request from outside
             if let rmod = requestModification {
@@ -74,7 +75,7 @@ extension Quack {
                                           uri: request.uri,
                                           version: Version(major: 1, minor: 1),
                                           headers: httpHeaders,
-                                          body: Body(request.body ?? ""))
+                                          body: Body(JSON(request.body ?? [:]).rawString() ?? ""))
     
             // send request
             guard let httpResponse = try? client.respond(to: httpRequest) else {
@@ -95,12 +96,12 @@ extension Quack {
         }
         
         open override func _respondWithJSONAsync(method: Quack.HTTP.Method,
-                                                   path: String,
-                                                   body: [String: Any],
-                                                   headers: [String: String],
-                                                   validStatusCodes: CountableRange<Int>,
-                                                   requestModification: ((Quack.Request) -> (Quack.Request))?,
-                                                   completion: @escaping (Quack.Result<JSON>) -> (Swift.Void)) {
+                                                 path: String,
+                                                 body: [String: Any],
+                                                 headers: [String: String],
+                                                 validStatusCodes: CountableRange<Int>,
+                                                 requestModification: ((Quack.Request) -> (Quack.Request))?,
+                                                 completion: @escaping (Quack.Result<JSON>) -> (Swift.Void)) {
             DispatchQueue.global(qos: .background).async {
                 let result = self._respondWithJSON(method: method,
                                                    path: path,

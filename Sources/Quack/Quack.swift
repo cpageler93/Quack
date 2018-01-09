@@ -84,7 +84,7 @@ extension Quack {
             var request = Quack.Request(method: method,
                                         uri: path,
                                         headers: headers,
-                                        body: JSON(body).rawString() ?? "")
+                                        body: body)
             
             // allow to modify the request from outside
             if let rmod = requestModification {
@@ -94,8 +94,8 @@ extension Quack {
             // transform request
             var httpRequest = self.manager.request(url.appendingPathComponent(request.uri),
                                                    method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
-                                                   parameters: body,
-                                                   encoding: URLEncoding.default,
+                                                   parameters: request.body,
+                                                   encoding: request.alamofireEncoding(),
                                                    headers: request.headers)
             
             // start reuest
@@ -107,6 +107,17 @@ extension Quack {
             return httpRequest
         }
         
+    }
+    
+}
+
+extension Quack.Request {
+    
+    public func alamofireEncoding() -> ParameterEncoding {
+        switch encoding {
+        case .url: return URLEncoding.default
+        case .json: return JSONEncoding.default
+        }
     }
     
 }
