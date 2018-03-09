@@ -14,6 +14,7 @@ public extension Quack {
         
         public enum Encoding {
             case url
+            case noUrlEncoding
             case json
         }
         
