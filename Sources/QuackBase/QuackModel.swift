@@ -9,6 +9,16 @@
 import Foundation
 import SwiftyJSON
 
-public protocol QuackModel {
+
+public extension Quack {
+    
+    public typealias Model = _QuackModel
+    
+}
+
+
+public protocol _QuackModel {
+    
     init?(json: JSON)
+    
 }

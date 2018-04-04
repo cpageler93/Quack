@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire",
+        "state": {
+          "branch": null,
+          "revision": "bc973c5311ce3db3f01a9fcde027fb11fa2254bf",
+          "version": "4.6.0"
+        }
+      },
+      {
         "package": "Bits",
         "repositoryURL": "https://github.com/vapor/bits.git",
         "state": {
@@ -24,8 +33,8 @@
         "repositoryURL": "https://github.com/vapor/core.git",
         "state": {
           "branch": null,
-          "revision": "b8330808f4f6b69941961afe8ad6b015562f7b7c",
-          "version": "2.1.2"
+          "revision": "f9f3a585ab0ea5764b46d7a36d9c0d9d508b9c63",
+          "version": "2.2.0"
         }
       },
       {
@@ -65,12 +74,21 @@
         }
       },
       {
+        "package": "Result",
+        "repositoryURL": "https://github.com/antitypical/Result.git",
+        "state": {
+          "branch": null,
+          "revision": "7477584259bfce2560a19e06ad9f71db441fff11",
+          "version": "3.2.4"
+        }
+      },
+      {
         "package": "Sockets",
         "repositoryURL": "https://github.com/vapor/sockets.git",
         "state": {
           "branch": null,
-          "revision": "f6b06982e94db71227e99c56fec5899a8526e8ad",
-          "version": "2.1.0"
+          "revision": "70d14c0e223257176f5ef69a595f7cad5de7a88b",
+          "version": "2.2.1"
         }
       },
       {
