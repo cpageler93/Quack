@@ -35,22 +35,22 @@ extension Quack {
         
         // MARK: - Methods overridden by subclasses
         
-        open func _respondWithJSON(method: Quack.HTTP.Method,
+        open func _respondWithData(method: Quack.HTTP.Method,
                                    path: String,
                                    body: [String: Any],
                                    headers: [String: String],
                                    validStatusCodes: CountableRange<Int>,
-                                   requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<JSON> {
+                                   requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
             fatalError("this method must be implemented in subclass")
         }
         
-        open func _respondWithJSONAsync(method: Quack.HTTP.Method,
+        open func _respondWithDataAsync(method: Quack.HTTP.Method,
                                         path: String,
                                         body: [String: Any],
                                         headers: [String: String],
                                         validStatusCodes: CountableRange<Int>,
                                         requestModification: ((Quack.Request) -> (Quack.Request))?,
-                                        completion: @escaping (Quack.Result<JSON>) -> (Swift.Void)) {
+                                        completion: @escaping (Quack.Result<Data>) -> (Swift.Void)) {
             fatalError("this method must be implemented in subclass")
         }
         
@@ -62,45 +62,45 @@ extension Quack {
 
 public extension Quack.ClientBase {
     
-    public func respond<Model: Quack.Model>(method: Quack.HTTP.Method = .get,
-                                            path: String,
-                                            body: [String: Any] = [:],
-                                            headers: [String: String] = [:],
-                                            validStatusCodes: CountableRange<Int> = 200..<300,
-                                            parser: Quack.CustomModelParser? = nil,
-                                            model: Model.Type,
-                                            requestModification: ((Quack.Request) -> (Quack.Request))? = nil) -> Quack.Result<Model> {
-        let result = _respondWithJSON(method: method,
+    public func respond<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+                                                path: String,
+                                                body: [String: Any] = [:],
+                                                headers: [String: String] = [:],
+                                                validStatusCodes: CountableRange<Int> = 200..<300,
+                                                parser: Quack.CustomModelParser? = nil,
+                                                model: Model.Type,
+                                                requestModification: ((Quack.Request) -> (Quack.Request))? = nil) -> Quack.Result<Model> {
+        let result = _respondWithData(method: method,
                                       path: path,
                                       body: body,
                                       headers: headers,
                                       validStatusCodes: validStatusCodes,
                                       requestModification: requestModification)
         switch result {
-        case .success(let json):
-            return (parser ?? self).parseModel(json: json, model: model)
+        case .success(let data):
+            return (parser ?? self).parseModel(data: data, model: model)
         case .failure(let error):
             return Quack.Result.failure(error)
         }
     }
 
-    public func respondWithArray<Model: Quack.Model>(method: Quack.HTTP.Method = .get,
-                                                     path: String,
-                                                     body: [String: Any] = [:],
-                                                     headers: [String: String] = [:],
-                                                     validStatusCodes: CountableRange<Int> = 200..<300,
-                                                     parser: Quack.CustomArrayParser? = nil,
-                                                     model: Model.Type,
-                                                     requestModification: ((Quack.Request) -> (Quack.Request))? = nil) -> Quack.Result<[Model]> {
-        let result = _respondWithJSON(method: method,
+    public func respondWithArray<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+                                                         path: String,
+                                                         body: [String: Any] = [:],
+                                                         headers: [String: String] = [:],
+                                                         validStatusCodes: CountableRange<Int> = 200..<300,
+                                                         parser: Quack.CustomArrayParser? = nil,
+                                                         model: Model.Type,
+                                                         requestModification: ((Quack.Request) -> (Quack.Request))? = nil) -> Quack.Result<[Model]> {
+        let result = _respondWithData(method: method,
                                       path: path,
                                       body: body,
                                       headers: headers,
                                       validStatusCodes: validStatusCodes,
                                       requestModification: requestModification)
         switch result {
-        case .success(let json):
-            return (parser ?? self).parseArray(json: json, model: model)
+        case .success(let data):
+            return (parser ?? self).parseArray(data: data, model: model)
         case .failure(let error):
             return Quack.Result.failure(error)
         }
@@ -112,7 +112,7 @@ public extension Quack.ClientBase {
                             headers: [String: String] = [:],
                             validStatusCodes: CountableRange<Int> = 200..<300,
                             requestModification: ((Quack.Request) -> (Quack.Request))? = nil) -> Quack.Void {
-        let result = _respondWithJSON(method: method,
+        let result = _respondWithData(method: method,
                                       path: path,
                                       body: body,
                                       headers: headers,
@@ -132,48 +132,48 @@ public extension Quack.ClientBase {
 
 public extension Quack.ClientBase {
     
-    public func respondAsync<Model: Quack.Model>(method: Quack.HTTP.Method = .get,
-                                                 path: String,
-                                                 body: [String: Any] = [:],
-                                                 headers: [String: String] = [:],
-                                                 validStatusCodes: CountableRange<Int> = 200..<300,
-                                                 parser: Quack.CustomModelParser? = nil,
-                                                 model: Model.Type,
-                                                 requestModification: ((Quack.Request) -> (Quack.Request))? = nil,
-                                                 completion: @escaping (Quack.Result<Model>) -> (Void)) {
-        _respondWithJSONAsync(method: method,
+    public func respondAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+                                                     path: String,
+                                                     body: [String: Any] = [:],
+                                                     headers: [String: String] = [:],
+                                                     validStatusCodes: CountableRange<Int> = 200..<300,
+                                                     parser: Quack.CustomModelParser? = nil,
+                                                     model: Model.Type,
+                                                     requestModification: ((Quack.Request) -> (Quack.Request))? = nil,
+                                                     completion: @escaping (Quack.Result<Model>) -> (Void)) {
+        _respondWithDataAsync(method: method,
                               path: path,
                               body: body,
                               headers: headers,
                               validStatusCodes: validStatusCodes,
                               requestModification: requestModification) { result in
                                 switch result {
-                                case .success(let json):
-                                    completion((parser ?? self).parseModel(json: json, model: model))
+                                case .success(let data):
+                                    completion((parser ?? self).parseModel(data: data, model: model))
                                 case .failure(let error):
                                     completion(Quack.Result.failure(error))
                                 }
         }
     }
 
-    public func respondWithArrayAsync<Model: Quack.Model>(method: Quack.HTTP.Method = .get,
-                                                         path: String,
-                                                         body: [String: Any] = [:],
-                                                         headers: [String: String] = [:],
-                                                         validStatusCodes: CountableRange<Int> = 200..<300,
-                                                         parser: Quack.CustomArrayParser? = nil,
-                                                         model: Model.Type,
-                                                         requestModification: ((Quack.Request) -> (Quack.Request))? = nil,
-                                                         completion: @escaping (Quack.Result<[Model]>) -> (Void)) {
-        _respondWithJSONAsync(method: method,
+    public func respondWithArrayAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+                                                              path: String,
+                                                              body: [String: Any] = [:],
+                                                              headers: [String: String] = [:],
+                                                              validStatusCodes: CountableRange<Int> = 200..<300,
+                                                              parser: Quack.CustomArrayParser? = nil,
+                                                              model: Model.Type,
+                                                              requestModification: ((Quack.Request) -> (Quack.Request))? = nil,
+                                                              completion: @escaping (Quack.Result<[Model]>) -> (Void)) {
+        _respondWithDataAsync(method: method,
                               path: path,
                               body: body,
                               headers: headers,
                               validStatusCodes: validStatusCodes,
                               requestModification: requestModification) { result in
                                 switch result {
-                                case .success(let json):
-                                    completion((parser ?? self).parseArray(json: json, model: model))
+                                case .success(let data):
+                                    completion((parser ?? self).parseArray(data: data, model: model))
                                 case .failure(let error):
                                     completion(Quack.Result.failure(error))
                                 }
@@ -187,7 +187,7 @@ public extension Quack.ClientBase {
                                  validStatusCodes: CountableRange<Int> = 200..<300,
                                  requestModification: ((Quack.Request) -> (Quack.Request))? = nil,
                                  completion: @escaping (Quack.Void) -> (Void)) {
-        _respondWithJSONAsync(method: method,
+        _respondWithDataAsync(method: method,
                               path: path,
                               body: body,
                               headers: headers,
@@ -235,25 +235,18 @@ public extension Quack.ClientBase {
 
     public func _handleClientResponse(_ response: Quack.Response?,
                                       validStatusCodes: CountableRange<Int>,
-                                      completion: @escaping (Quack.Result<JSON>) -> (Void)) {
+                                      completion: @escaping (Quack.Result<Data>) -> (Void)) {
         guard let response = response else {
             completion(.failure(.errorWithName("No Response")))
             return
         }
 
-        // TODO: Validate response code
         guard validStatusCodes.contains(response.statusCode) else {
             completion(.failure(.invalidStatusCode(response.statusCode)))
             return
         }
-
-        if let bodyString = response.body {
-            let json = JSON.parse(string: bodyString)
-            completion(.success(json))
-        } else {
-            completion(.success(JSON()))
-        }
-
+        
+        completion(.success(response.body ?? Data()))
     }
 
 }
@@ -261,8 +254,8 @@ public extension Quack.ClientBase {
 
 extension Quack.ClientBase: Quack.CustomModelParser {
     
-    public func parseModel<Model>(json: JSON, model: Model.Type) -> Quack.Result<Model> where Model : Quack.Model {
-        if let model = Model(json: json) {
+    public func parseModel<Model>(data: Data, model: Model.Type) -> Quack.Result<Model> where Model : Quack.DataModel {
+        if let model = Model(data: data) {
             return Quack.Result.success(model)
         } else {
             return Quack.Result.failure(Quack.Error.modelParsingError)
@@ -274,11 +267,16 @@ extension Quack.ClientBase: Quack.CustomModelParser {
 
 extension Quack.ClientBase: Quack.CustomArrayParser {
     
-    public func parseArray<Model>(json: JSON, model: Model.Type) -> Quack.Result<[Model]> where Model : Quack.Model {
+    public func parseArray<Model>(data: Data, model: Model.Type) -> Quack.Result<[Model]> where Model : Quack.DataModel {
+        let json = JSON(data: data)
+        
         if let jsonArray = json.array {
             var models: [Model] = []
             for jsonObject in jsonArray {
-                if let model = Model(json: jsonObject) {
+                guard let data = try? jsonObject.rawData() else {
+                    continue
+                }
+                if let model = Model(data: data) {
                     models.append(model)
                 }
             }

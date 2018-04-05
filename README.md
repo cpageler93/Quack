@@ -33,6 +33,7 @@ github.repositories(owner: "cpageler93") { repos in
 
 ```swift
 class GithubClient: QuackClient {
+
     init() {
        super.init(url: URL(string: "https://api.github.com")!)
     }
@@ -49,9 +50,11 @@ class GithubClient: QuackClient {
                                      model: GithubRepository.self,
                                      completion: completion)
     }
+
 }
 
 class GithubRepository: QuackModel {
+
     let name: String?
     let fullName: String?
     let owner: String?
@@ -61,6 +64,7 @@ class GithubRepository: QuackModel {
         self.fullName = json["full_name"].string
         self.owner = json["owner"]["login"].string
     }
+
 }
 ```
 
@@ -89,6 +93,14 @@ github.repositories(owner: "cpageler93") { repos in
     }
 }
 
+```
+
+### Tests
+
+Some tests are based on a local consul service. So start consul at first.
+
+```
+consul agent --dev --datacenter fra1
 ```
 
 ## Need Help?

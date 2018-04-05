@@ -20,14 +20,14 @@ public extension Quack {
 
 public protocol _QuackCustomArrayParser {
     
-    func parseArray<Model: Quack.Model>(json: JSON, model: Model.Type) -> Quack.Result<[Model]>
+    func parseArray<Model: Quack.DataModel>(data: Data, model: Model.Type) -> Quack.Result<[Model]>
     
 }
 
 
 public protocol _QuackCustomModelParser {
     
-    func parseModel<Model: Quack.Model>(json: JSON, model: Model.Type) -> Quack.Result<Model>
+    func parseModel<Model: Quack.DataModel>(data: Data, model: Model.Type) -> Quack.Result<Model>
     
 }
 
@@ -75,11 +75,16 @@ public extension Quack {
 
 extension Quack.ArrayParserByIgnoringDictionaryKeys: Quack.CustomArrayParser {
 
-    public func parseArray<Model>(json: JSON, model: Model.Type) -> Quack.Result<[Model]> where Model : Quack.Model {
+    public func parseArray<Model>(data: Data, model: Model.Type) -> Quack.Result<[Model]> where Model : Quack.DataModel {
+        let json = JSON(data: data)
+        
         if let dictionary = json.dictionary {
             var result: [Model] = []
             for (_, value) in dictionary {
-                if let model = Model(json: value) {
+                guard let data = try? value.rawData() else {
+                    continue
+                }
+                if let model = Model(data: data) {
                     result.append(model)
                 }
             }
