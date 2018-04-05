@@ -7,9 +7,8 @@
 
 import XCTest
 import Foundation
-
-@testable import QuackBase
 @testable import QuackLinux
+
 
 class QuackLinuxUnitTests: XCTestCase {
     

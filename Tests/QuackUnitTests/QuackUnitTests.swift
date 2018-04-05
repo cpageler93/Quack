@@ -7,6 +7,7 @@
 
 import XCTest
 
+
 class QuackUnitTests: XCTestCase {
     
     func testGithub() {

@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import Result
-import SwiftyJSON
-import QuackBase
-import Alamofire
+@_exported import Result
+@_exported import SwiftyJSON
+@_exported import QuackBase
+@_exported import Alamofire
 
 
 extension Quack {
@@ -33,12 +33,12 @@ extension Quack {
             
         }()
         
-        open override func _respondWithJSON(method: Quack.HTTP.Method,
+        open override func _respondWithData(method: Quack.HTTP.Method,
                                               path: String,
                                               body: [String : Any],
                                               headers: [String : String],
                                               validStatusCodes: CountableRange<Int>,
-                                              requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<JSON> {
+                                              requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
             let request = dataRequest(method: method,
                                       path: path,
                                       body: body,
@@ -46,30 +46,28 @@ extension Quack {
                                       validStatusCodes: validStatusCodes,
                                       requestModification: requestModification)
             let response = request.responseData()
-            switch response.result {
-            case .success(let jsonData): return .success(JSON(data: jsonData))
-            case .failure(let error):    return .failure(.errorWithError(error))
-            }
+            let result = convertResponseToResult(response, validStatusCodes: validStatusCodes)
+            
+            return result
         }
         
-        open override func _respondWithJSONAsync(method: Quack.HTTP.Method,
-                                                   path: String,
-                                                   body: [String: Any],
-                                                   headers: [String: String],
-                                                   validStatusCodes: CountableRange<Int>,
-                                                   requestModification: ((Quack.Request) -> (Quack.Request))?,
-                                                   completion: @escaping (Quack.Result<JSON>) -> (Swift.Void)) {
+        open override func _respondWithDataAsync(method: Quack.HTTP.Method,
+                                                 path: String,
+                                                 body: [String: Any],
+                                                 headers: [String: String],
+                                                 validStatusCodes: CountableRange<Int>,
+                                                 requestModification: ((Quack.Request) -> (Quack.Request))?,
+                                                 completion: @escaping (Quack.Result<Data>) -> (Swift.Void)) {
             let request = dataRequest(method: method,
                                       path: path,
                                       body: body,
                                       headers: headers,
                                       validStatusCodes: validStatusCodes,
                                       requestModification: requestModification)
+            
             request.responseData { response in
-                switch response.result {
-                case .success(let jsonData): completion(.success(JSON(data: jsonData)))
-                case .failure(let error):    completion(.failure(.errorWithError(error)))
-                }
+                let result = self.convertResponseToResult(response, validStatusCodes: validStatusCodes)
+                completion(result)
             }
         }
         
@@ -93,7 +91,7 @@ extension Quack {
             
             // transform request
             let completeURL = "\(url)\(request.uri)"
-            var httpRequest = self.manager.request(completeURL,
+            let httpRequest = self.manager.request(completeURL,
                                                    method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
                                                    parameters: request.body,
                                                    encoding: request.alamofireEncoding(),
@@ -102,10 +100,28 @@ extension Quack {
             // start reuest
             httpRequest.resume()
             
-            // validate request
-            httpRequest = httpRequest.validate(statusCode: validStatusCodes)
-            
             return httpRequest
+        }
+        
+        private func convertResponseToResult(_ dataResponse: DataResponse<Data>,
+                                             validStatusCodes: CountableRange<Int>) -> Quack.Result<Data> {
+            if let error = dataResponse.error {
+                return .failure(.errorWithError(error))
+            }
+            var result = Quack.Result<Data>.failure(.errorWithName("Failed handle client response"))
+            guard let statusCode = dataResponse.response?.statusCode else {
+                return result
+            }
+            
+            // transform response
+            let response = Response(statusCode: statusCode,
+                                    body: dataResponse.data)
+            
+            self._handleClientResponse(response, validStatusCodes: validStatusCodes, completion: { r in
+                result = r
+            })
+            
+            return result
         }
         
     }

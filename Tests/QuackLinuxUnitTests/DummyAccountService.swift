@@ -7,8 +7,6 @@
 //
 
 import Foundation
-
-@testable import QuackBase
 @testable import QuackLinux
 
 class DummyAccountServiceClient: Quack.Client {

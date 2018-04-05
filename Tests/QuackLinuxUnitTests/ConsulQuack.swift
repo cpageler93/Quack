@@ -9,8 +9,6 @@
 import Foundation
 import SwiftyJSON
 import HTTP
-
-@testable import QuackBase
 @testable import QuackLinux
 
 

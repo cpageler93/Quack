@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import Result
-import SwiftyJSON
-import QuackBase
-import HTTP
-import Sockets
-import TLS
+@_exported import Result
+@_exported import SwiftyJSON
+@_exported import QuackBase
+@_exported import HTTP
+@_exported import Sockets
+@_exported import TLS
 
 
 internal typealias HTTPClient = Client
@@ -24,12 +24,12 @@ extension Quack {
     
     open class Client: ClientBase {
         
-        open override func _respondWithJSON(method: Quack.HTTP.Method,
+        open override func _respondWithData(method: Quack.HTTP.Method,
                                               path: String,
                                               body: [String : Any],
                                               headers: [String : String],
                                               validStatusCodes: CountableRange<Int>,
-                                              requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<JSON> {
+                                              requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
             guard
                 let scheme = self.url.scheme,
                 let host = self.url.host,
@@ -84,10 +84,10 @@ extension Quack {
     
             // transform response
             let response = Response(statusCode: httpResponse.status.statusCode,
-                                    body: httpResponse.body.bytes?.makeString())
+                                    body: Data(bytes: httpResponse.body.bytes ?? []))
             
-            var result = Quack.Result<JSON>.failure(.errorWithName("Failed handle client response"))
-            self._handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
+            var result = Quack.Result<Data>.failure(.errorWithName("Failed handle client response"))
+            _handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
                 result = r
             }
     
@@ -95,15 +95,15 @@ extension Quack {
             
         }
         
-        open override func _respondWithJSONAsync(method: Quack.HTTP.Method,
+        open override func _respondWithDataAsync(method: Quack.HTTP.Method,
                                                  path: String,
                                                  body: [String: Any],
                                                  headers: [String: String],
                                                  validStatusCodes: CountableRange<Int>,
                                                  requestModification: ((Quack.Request) -> (Quack.Request))?,
-                                                 completion: @escaping (Quack.Result<JSON>) -> (Swift.Void)) {
+                                                 completion: @escaping (Quack.Result<Data>) -> (Swift.Void)) {
             DispatchQueue.global(qos: .background).async {
-                let result = self._respondWithJSON(method: method,
+                let result = self._respondWithData(method: method,
                                                    path: path,
                                                    body: body,
                                                    headers: headers,

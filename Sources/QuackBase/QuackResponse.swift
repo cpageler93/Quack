@@ -7,14 +7,15 @@
 
 import Foundation
 
+
 public extension Quack {
     
     public struct Response {
         
         public var statusCode: Int
-        public var body: String? = nil
+        public var body: Data? = nil
         
-        public init(statusCode: Int, body: String? = nil) {
+        public init(statusCode: Int, body: Data? = nil) {
             self.statusCode = statusCode
             self.body = body
         }

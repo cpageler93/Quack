@@ -9,6 +9,7 @@ import XCTest
 import Foundation
 @testable import Quack
 
+
 class QuackBaseUnitTests: XCTestCase {
 
     func testFoo() {

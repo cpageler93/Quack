@@ -8,8 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-
-@testable import QuackBase
 @testable import Quack
 
 
