@@ -1,4 +1,4 @@
 module CHTTP {
-    umbrella "/Users/christoph/Development/private/Quack/.build/checkouts/engine.git-3311994267206676365/Sources/CHTTP/include"
+    umbrella "/Users/christoph/Development/frameworks/quack/.build/checkouts/engine.git-3311994267206676365/Sources/CHTTP/include"
     export *
 }
