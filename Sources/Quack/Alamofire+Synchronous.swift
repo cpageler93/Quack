@@ -6,6 +6,8 @@
 //
 //
 
+#if !os(Linux)
+
 import Foundation
 import Alamofire
 
@@ -204,3 +206,5 @@ extension DownloadRequest {
     }
     
 }
+
+#endif

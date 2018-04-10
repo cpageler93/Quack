@@ -1,7 +1,6 @@
 import XCTest
-
-import QuackTests
+import QuackUnitTests
 
 XCTMain([
-    testCase(UnitTests.allTests),
+    testCase(QuackUnitTests.allTests),
 ])

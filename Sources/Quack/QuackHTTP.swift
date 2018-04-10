@@ -1,24 +1,24 @@
 //
-//  Quack.swift
+//  QuackHTTP.swift
 //  Quack
 //
 //  Created by Christoph on 16.05.17.
 //
 //
 
-import Foundation
-@_exported import Result
-@_exported import SwiftyJSON
-@_exported import QuackBase
-@_exported import HTTP
-@_exported import Sockets
-@_exported import TLS
+#if os(Linux)
 
+
+import Foundation
+import Result
+import SwiftyJSON
+import HTTP
+import Sockets
+import TLS
 
 internal typealias HTTPClient = Client
 internal typealias HTTPRequest = Request
 internal typealias HTTPMethod = HTTP.Method
-
 
 extension Quack {
     
@@ -119,3 +119,4 @@ extension Quack {
     
 }
 
+#endif

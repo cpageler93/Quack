@@ -237,12 +237,15 @@ public extension Quack.ClientBase {
                                       validStatusCodes: CountableRange<Int>,
                                       completion: @escaping (Quack.Result<Data>) -> (Void)) {
         guard let response = response else {
-            completion(.failure(.errorWithName("No Response")))
+            completion(.failure(.withType(.errorWithName("No Response"))))
             return
         }
 
         guard validStatusCodes.contains(response.statusCode) else {
-            completion(.failure(.invalidStatusCode(response.statusCode)))
+            let error = Quack.Error(type: .invalidStatusCode(response.statusCode), userInfo: [
+                "response": response
+            ])
+            completion(.failure(error))
             return
         }
         
@@ -256,9 +259,9 @@ extension Quack.ClientBase: Quack.CustomModelParser {
     
     public func parseModel<Model>(data: Data, model: Model.Type) -> Quack.Result<Model> where Model : Quack.DataModel {
         if let model = Model(data: data) {
-            return Quack.Result.success(model)
+            return .success(model)
         } else {
-            return Quack.Result.failure(Quack.Error.modelParsingError)
+            return .failure(.withType(.modelParsingError))
         }
     }
     
@@ -280,9 +283,9 @@ extension Quack.ClientBase: Quack.CustomArrayParser {
                     models.append(model)
                 }
             }
-            return Quack.Result.success(models)
+            return .success(models)
         } else {
-            return Quack.Result.failure(Quack.Error.jsonParsingError)
+            return .failure(.withType(.jsonParsingError))
         }
     }
     

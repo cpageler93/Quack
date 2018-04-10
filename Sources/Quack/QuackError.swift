@@ -10,20 +10,32 @@ import Foundation
 
 public extension Quack {
     
-    public enum Error: Swift.Error {
+    public struct Error: Swift.Error {
         
-        case modelParsingError
-        case jsonParsingError
-        case errorWithName(String)
-        case errorWithError(Swift.Error)
-        case invalidStatusCode(Int)
-        case invalidHTTPMethod
+        public let type: ErrorType
+        public let userInfo: [AnyHashable: Any]
+        
+        public enum ErrorType {
+            
+            case modelParsingError
+            case jsonParsingError
+            case errorWithName(String)
+            case errorWithError(Swift.Error)
+            case invalidStatusCode(Int)
+            case invalidHTTPMethod
+            
+        }
+        
+        public static func withType(_ type: ErrorType) -> Quack.Error {
+            return Error(type: type, userInfo: [:])
+        }
         
     }
     
     public class HTTP {
         
         public enum Method {
+            
             case delete
             case get
             case head
@@ -36,7 +48,6 @@ public extension Quack {
             case other(method: String)
             
             public func stringValue() -> String {
-                
                 switch self {
                 case .delete                : return "DELETE"
                 case .get                   : return "GET"
@@ -49,7 +60,6 @@ public extension Quack {
                 case .patch                 : return "PATCH"
                 case .other(let method)     : return method
                 }
-                
             }
         }
         

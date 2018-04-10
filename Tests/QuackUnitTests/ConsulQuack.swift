@@ -7,9 +7,7 @@
 //
 
 import Foundation
-import SwiftyJSON
-import HTTP
-@testable import QuackLinux
+import Quack
 
 
 public class ConsulAgentCheckOutput: Quack.Model {
@@ -34,12 +32,13 @@ public class ConsulKeyValuePair: Quack.Model {
     var value: String
     
     public required init?(json: JSON) {
-        guard
-            let jsonArray = json.array,
+        guard let jsonArray = json.array,
             let firstJsonEntry = jsonArray.first,
             let key = firstJsonEntry["Key"].string,
             let value = firstJsonEntry["Value"].string
-            else { return nil }
+        else {
+            return nil
+        }
         
         self.key = key
         self.value = value
@@ -81,7 +80,7 @@ public class Consul: Quack.Client {
                        model: Bool.self,
                        requestModification: { (request) -> (Quack.Request) in
                         var newRequest = request
-                        newRequest.body = [:]
+                        newRequest.body = ["value": value]
                         return newRequest
         })
     }

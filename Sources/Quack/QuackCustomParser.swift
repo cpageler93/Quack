@@ -88,10 +88,10 @@ extension Quack.ArrayParserByIgnoringDictionaryKeys: Quack.CustomArrayParser {
                     result.append(model)
                 }
             }
-            return Quack.Result.success(result)
+            return .success(result)
         }
 
-        return Quack.Result.failure(Quack.Error.jsonParsingError)
+        return .failure(.withType(.jsonParsingError))
     }
 
 }

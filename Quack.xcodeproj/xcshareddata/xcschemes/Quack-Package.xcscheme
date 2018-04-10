@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Quack::QuackLinux"
-               BuildableName = "QuackLinux.framework"
-               BlueprintName = "QuackLinux"
+               BlueprintIdentifier = "Result::Result"
+               BuildableName = "Result.framework"
+               BlueprintName = "Result"
                ReferencedContainer = "container:Quack.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,149 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Engine::HTTP"
-               BuildableName = "HTTP.framework"
-               BlueprintName = "HTTP"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Random::Random"
-               BuildableName = "Random.framework"
-               BlueprintName = "Random"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TLS::TLS"
-               BuildableName = "TLS.framework"
-               BlueprintName = "TLS"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Sockets::Sockets"
-               BuildableName = "Sockets.framework"
-               BlueprintName = "Sockets"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Engine::URI"
-               BuildableName = "URI.framework"
-               BlueprintName = "URI"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Sockets::Transport"
-               BuildableName = "Transport.framework"
-               BlueprintName = "Transport"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Core::Core"
-               BuildableName = "Core.framework"
-               BlueprintName = "Core"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Debugging::Debugging"
-               BuildableName = "Debugging.framework"
-               BlueprintName = "Debugging"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Bits::Bits"
-               BuildableName = "Bits.framework"
-               BlueprintName = "Bits"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Core::libc"
-               BuildableName = "libc.framework"
-               BlueprintName = "libc"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Engine::CHTTP"
-               BuildableName = "CHTTP.framework"
-               BlueprintName = "CHTTP"
+               BlueprintIdentifier = "SwiftyJSON::SwiftyJSON"
+               BuildableName = "SwiftyJSON.framework"
+               BlueprintName = "SwiftyJSON"
                ReferencedContainer = "container:Quack.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -202,67 +62,14 @@
                ReferencedContainer = "container:Quack.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Quack::QuackBase"
-               BuildableName = "QuackBase.framework"
-               BlueprintName = "QuackBase"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Result::Result"
-               BuildableName = "Result.framework"
-               BlueprintName = "Result"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftyJSON::SwiftyJSON"
-               BuildableName = "SwiftyJSON.framework"
-               BlueprintName = "SwiftyJSON"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Quack::QuackLinuxUnitTests"
-               BuildableName = "QuackLinuxUnitTests.xctest"
-               BlueprintName = "QuackLinuxUnitTests"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
@@ -270,16 +77,6 @@
                BlueprintIdentifier = "Quack::QuackUnitTests"
                BuildableName = "QuackUnitTests.xctest"
                BlueprintName = "QuackUnitTests"
-               ReferencedContainer = "container:Quack.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Quack::QuackBaseUnitTests"
-               BuildableName = "QuackBaseUnitTests.xctest"
-               BlueprintName = "QuackBaseUnitTests"
                ReferencedContainer = "container:Quack.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -291,7 +88,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -301,9 +97,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Quack::QuackLinux"
-            BuildableName = "QuackLinux.framework"
-            BlueprintName = "QuackLinux"
+            BlueprintIdentifier = "Result::Result"
+            BuildableName = "Result.framework"
+            BlueprintName = "Result"
             ReferencedContainer = "container:Quack.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

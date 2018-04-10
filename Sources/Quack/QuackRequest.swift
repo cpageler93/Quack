@@ -7,6 +7,9 @@
 
 import Foundation
 
+#if !os(Linux)
+import Alamofire
+#endif
 
 public extension Quack {
     
@@ -29,6 +32,15 @@ public extension Quack {
             self.headers = headers
             self.body = body
         }
+        
+#if !os(Linux)
+        public func alamofireEncoding() -> ParameterEncoding {
+            switch encoding {
+            case .url: return URLEncoding.default
+            case .json: return JSONEncoding.default
+            }
+        }
+#endif
         
     }
     

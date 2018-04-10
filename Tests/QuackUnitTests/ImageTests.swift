@@ -5,8 +5,15 @@
 //  Created by Christoph Pageler on 04.04.18.
 //
 
+#if !os(Linux)
+
 import XCTest
+#if os(macOS)
 import AppKit
+#else
+import UIKit
+typealias NSImage = UIImage
+#endif
 
 @testable import Quack
 
@@ -55,3 +62,5 @@ class ImageTests: XCTestCase {
     
 }
 
+
+#endif

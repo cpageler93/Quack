@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import SwiftyJSON
-@testable import Quack
+import Quack
 
 
 class GithubClient: Quack.Client {
@@ -37,7 +36,7 @@ class GithubClient: Quack.Client {
 
     public func repositoryBranches(repository: GithubRepository) -> Quack.Result<[GithubRepositoryBranch]> {
         guard let fullName = repository.fullName else {
-            return .failure(.errorWithName("missing fullname"))
+            return .failure(.withType(.errorWithName("missing fullname")))
         }
         return respondWithArray(method: .get,
                                 path: "/repos/\(fullName)/branches",
