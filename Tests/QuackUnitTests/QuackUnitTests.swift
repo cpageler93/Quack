@@ -1,29 +1,24 @@
 //
-//  QuackLinuxUnitTests.swift
-//  QuackLinuxUnitTests
+//  QuackUnitTests.swift
+//  QuackUnitTests
 //
 //  Created by Christoph Pageler on 18.12.17.
 //
 
 import XCTest
-import Foundation
-@testable import QuackLinux
+@testable import Quack
 
+public class QuackUnitTests: XCTestCase {
 
-class QuackLinuxUnitTests: XCTestCase {
-    
-    static var allTests = [
+    public static var allTests = [
         ("testGithub", testGithub),
         ("testGithubRepository", testGithubRepository),
         ("testGithubRepositoryAsync", testGithubRepositoryAsync),
         ("testGithubRepositoryBranches", testGithubRepositoryBranches),
         ("testDummyAccountServiceWithValidURL", testDummyAccountServiceWithValidURL),
-        ("testDummyAccountServiceWithInvalidURL", testDummyAccountServiceWithInvalidURL),
-        ("testConsulAgentReload", testConsulAgentReload),
-        ("testConsulAgentChecks", testConsulAgentChecks),
-        ("testConsulKeyValue", testConsulKeyValue)
+        ("testDummyAccountServiceWithInvalidURL", testDummyAccountServiceWithInvalidURL)
     ]
-    
+
     func testGithub() {
         let github = GithubClient()
         XCTAssertEqual(github.url.absoluteString, "https://api.github.com")
@@ -67,7 +62,7 @@ class QuackLinuxUnitTests: XCTestCase {
             XCTAssertNil(error)
         }
     }
-    
+
     func testDummyAccountServiceWithValidURL() {
         let service = DummyAccountServiceClient(urlString: "https://hellothisisurl.com")
         XCTAssertEqual(service?.url.absoluteString, "https://hellothisisurl.com")
@@ -113,7 +108,7 @@ class QuackLinuxUnitTests: XCTestCase {
         let key = consul.readKey("QuackKey")
         switch key {
         case .success(let key):
-            XCTAssertEqual(key.decodedValue()?.count ?? 0, 4)
+            XCTAssertEqual(key.decodedValue()?.count ?? 0, 16)
         case .failure(let error):
             XCTAssertNil(error)
         }
@@ -130,7 +125,7 @@ class QuackLinuxUnitTests: XCTestCase {
                 XCTFail("Should be an QuackError")
                 return
             }
-            switch error {
+            switch error.type {
             case .invalidStatusCode(let code):
                 XCTAssertEqual(code, 404)
             default:
@@ -140,4 +135,3 @@ class QuackLinuxUnitTests: XCTestCase {
     }
     
 }
-
