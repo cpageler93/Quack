@@ -30,8 +30,7 @@ extension Quack {
                                               headers: [String : String],
                                               validStatusCodes: CountableRange<Int>,
                                               requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
-            guard
-                let scheme = self.url.scheme,
+            guard let scheme = self.url.scheme,
                 let host = self.url.host,
                 let httpSocket = try? TCPInternetSocket(scheme: scheme,
                                                         hostname: host,
@@ -42,10 +41,9 @@ extension Quack {
             }
     
             if scheme == "https" {
-                guard
-                    let newSocket = try? TCPInternetSocket(scheme: scheme,
-                                                           hostname: host,
-                                                           port: UInt16(self.url.port ?? 443)),
+                guard let newSocket = try? TCPInternetSocket(scheme: scheme,
+                                                             hostname: host,
+                                                             port: UInt16(self.url.port ?? 443)),
                     let httpsSocket = try? TLS.InternetSocket(newSocket, Context(.client)),
                     let httpsClient = try? BasicClient(httpsSocket)
                 else {

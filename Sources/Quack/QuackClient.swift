@@ -273,21 +273,22 @@ extension Quack.ClientBase: Quack.CustomArrayParser {
     public func parseArray<Model>(data: Data, model: Model.Type) -> Quack.Result<[Model]> where Model : Quack.DataModel {
         let json = JSON(data: data)
         
-        if let jsonArray = json.array {
-            var models: [Model] = []
-            for jsonObject in jsonArray {
-                guard let data = try? jsonObject.rawData() else {
-                    continue
-                }
-                if let model = Model(data: data) {
-                    models.append(model)
-                }
-            }
-            return .success(models)
-        } else {
+        guard let jsonArray = json.array else {
             return .failure(.withType(.jsonParsingError))
         }
+        
+        var models: [Model] = []
+        for jsonObject in jsonArray {
+            guard let JSONModel = Model.self as? Quack.Model.Type,
+                let jsonModel = JSONModel.init(json: jsonObject),
+                let model = jsonModel as? Model
+            else {
+                continue
+            }
+            models.append(model)
+        }
+        return .success(models)
     }
     
 }
-
+ 

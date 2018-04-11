@@ -121,10 +121,6 @@ public class QuackUnitTests: XCTestCase {
         case .success:
             XCTFail("Should fail because FooBar is an invalid key")
         case .failure(let error):
-            guard let error = error as? Quack.Error else {
-                XCTFail("Should be an QuackError")
-                return
-            }
             switch error.type {
             case .invalidStatusCode(let code):
                 XCTAssertEqual(code, 404)

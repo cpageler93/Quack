@@ -71,56 +71,56 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		593B6B52207CFB0A0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC88207DE34A009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Result::Result";
 			remoteInfo = Result;
 		};
-		593B6B53207CFB0A0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC89207DE34A009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SwiftyJSON::SwiftyJSON";
 			remoteInfo = SwiftyJSON;
 		};
-		593B6B54207CFB0A0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC8A207DE34A009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		593B6B55207CFB0A0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC8B207DE34A009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Quack::Quack";
 			remoteInfo = Quack;
 		};
-		593B6B56207CFB0A0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC8C207DE34A009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Result::Result";
 			remoteInfo = Result;
 		};
-		593B6B57207CFB0A0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC8D207DE34A009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SwiftyJSON::SwiftyJSON";
 			remoteInfo = SwiftyJSON;
 		};
-		593B6B58207CFB0A0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC8E207DE34A009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		593B6B59207CFB0B0016A3E2 /* PBXContainerItemProxy */ = {
+		5924DC8F207DE34B009139F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -333,11 +333,11 @@
 		OBJ_56 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"Quack::QuackUnitTests::Product" /* QuackUnitTests.xctest */,
-				"Result::Result::Product" /* Result.framework */,
 				"SwiftyJSON::SwiftyJSON::Product" /* SwiftyJSON.framework */,
 				"Quack::Quack::Product" /* Quack.framework */,
 				"Alamofire::Alamofire::Product" /* Alamofire.framework */,
+				"Result::Result::Product" /* Result.framework */,
+				"Quack::QuackUnitTests::Product" /* QuackUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -658,42 +658,42 @@
 		OBJ_110 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Result::Result" /* Result */;
-			targetProxy = 593B6B52207CFB0A0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC88207DE34A009139F8 /* PBXContainerItemProxy */;
 		};
 		OBJ_112 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SwiftyJSON::SwiftyJSON" /* SwiftyJSON */;
-			targetProxy = 593B6B53207CFB0A0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC89207DE34A009139F8 /* PBXContainerItemProxy */;
 		};
 		OBJ_114 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = 593B6B54207CFB0A0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC8A207DE34A009139F8 /* PBXContainerItemProxy */;
 		};
 		OBJ_125 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Quack::QuackUnitTests" /* QuackUnitTests */;
-			targetProxy = 593B6B59207CFB0B0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC8F207DE34B009139F8 /* PBXContainerItemProxy */;
 		};
 		OBJ_141 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Quack::Quack" /* Quack */;
-			targetProxy = 593B6B55207CFB0A0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC8B207DE34A009139F8 /* PBXContainerItemProxy */;
 		};
 		OBJ_142 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Result::Result" /* Result */;
-			targetProxy = 593B6B56207CFB0A0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC8C207DE34A009139F8 /* PBXContainerItemProxy */;
 		};
 		OBJ_143 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SwiftyJSON::SwiftyJSON" /* SwiftyJSON */;
-			targetProxy = 593B6B57207CFB0A0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC8D207DE34A009139F8 /* PBXContainerItemProxy */;
 		};
 		OBJ_144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = 593B6B58207CFB0A0016A3E2 /* PBXContainerItemProxy */;
+			targetProxy = 5924DC8E207DE34A009139F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
