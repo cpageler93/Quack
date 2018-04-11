@@ -37,7 +37,7 @@ extension Quack {
                                                         port: UInt16(self.url.port ?? 80)),
                 var client = try? BasicClient(httpSocket) as HTTPClient
             else {
-                return .failure(.errorWithName("Failed to setup HTTP Socket"))
+                return .failure(.withType(.errorWithName("Failed to setup HTTP Socket")))
             }
     
             if scheme == "https" {
@@ -47,7 +47,7 @@ extension Quack {
                     let httpsSocket = try? TLS.InternetSocket(newSocket, Context(.client)),
                     let httpsClient = try? BasicClient(httpsSocket)
                 else {
-                    return .failure(.errorWithName("Failed to setup HTTPS Socket"))
+                    return .failure(.withType(.errorWithName("Failed to setup HTTPS Socket")))
                 }
                 client = httpsClient
             }
@@ -77,14 +77,14 @@ extension Quack {
     
             // send request
             guard let httpResponse = try? client.respond(to: httpRequest) else {
-                return .failure(.errorWithName("Failed to respond"))
+                return .failure(.withType(.errorWithName("Failed to respond")))
             }
     
             // transform response
             let response = Response(statusCode: httpResponse.status.statusCode,
                                     body: Data(bytes: httpResponse.body.bytes ?? []))
             
-            var result = Quack.Result<Data>.failure(.errorWithName("Failed handle client response"))
+            var result = Quack.Result<Data>.failure(.withType(.errorWithName("Failed handle client response")))
             _handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
                 result = r
             }
