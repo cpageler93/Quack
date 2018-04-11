@@ -11,7 +11,7 @@ public protocol _QuackBody { }
 
 public extension Quack {
 
-    typealias Body = _QuackBody
+    public typealias Body = _QuackBody
     
     public struct StringBody: Quack.Body {
         
