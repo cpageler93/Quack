@@ -1,13 +1,14 @@
 # Quack
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/28beba3fed654a6284a1fca5df022490)](https://www.codacy.com/app/cpageler93/Quack?utm_source=github.com&utm_medium=referral&utm_content=cpageler93/Quack&utm_campaign=badger)
-[![Twitter: @cpageler93](https://img.shields.io/badge/contact-@cpageler93-lightgrey.svg?style=flat)](https://twitter.com/cpageler93)
+![Platforms](https://img.shields.io/badge/Platforms-iOS|macOS|tvOS|watchOS|Linux-yellow.svg?style=flat)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/cpageler93/Quack/blob/master/LICENSE)
+[![Twitter: @cpageler93](https://img.shields.io/badge/contact-@cpageler93-lightgrey.svg?style=flat)](https://twitter.com/cpageler93)
 
 
 `Quack` is an easy to use HTTP Client.
 
-With `Quack` HTTP(s) calls look that beautiful and easy:
+With `Quack` HTTP calls look that beautiful and easy:
 
 ```swift
 let github = GithubClient()
@@ -26,13 +27,13 @@ github.repositories(owner: "cpageler93") { repos in
 
 ### Base Classes
 
-- `QuackClient` methods to make via HTTP(s)
-- `QuackModel` parsing JSON to models (DTOs)
+- `QuackClient` methods to make via HTTP
+- `QuackModel` parsing JSON to models
 
 ### Code to define a Service
 
 ```swift
-class GithubClient: QuackClient {
+class GithubClient: Quack.Client {
 
     init() {
        super.init(url: URL(string: "https://api.github.com")!)
@@ -53,7 +54,7 @@ class GithubClient: QuackClient {
 
 }
 
-class GithubRepository: QuackModel {
+class GithubRepository: Quack.Model {
 
     let name: String?
     let fullName: String?
@@ -76,9 +77,9 @@ let github = GithubClient()
 // synchronous
 let repos = github.repositories(owner: "cpageler93")
 switch repos {
-case .Success(let repos):
+case .success(let repos):
     // do something with repos (which is kind of [GithubRepository])
-case .Failure(let error):
+case .failure(let error):
     // handle error
 }
 
