@@ -40,13 +40,13 @@ class GithubClient: Quack.Client {
     }
 
     // synchronous
-    public func repositories(owner: String) -> QuackResult<[GithubRepository]> {
+    public func repositories(owner: String) -> Quack.Result<[GithubRepository]> {
         return respondWithArray(path: "/users/\(owner)/repos",
                                 model: GithubRepository.self)
     }
 
     // asynchronous
-    public func repositories(owner: String, completion: @escaping (QuackResult<[GithubRepository]>) -> (Void)) {
+    public func repositories(owner: String, completion: @escaping (Quack.Result<[GithubRepository]>) -> (Void)) {
         return respondWithArrayAsync(path: "/users/\(owner)/repos",
                                      model: GithubRepository.self,
                                      completion: completion)
