@@ -33,7 +33,7 @@ extension Quack {
         
         open override func _respondWithData(method: Quack.HTTP.Method,
                                             path: String,
-                                            body: [String : Any],
+                                            body: Quack.Body?,
                                             headers: [String : String],
                                             validStatusCodes: CountableRange<Int>,
                                             requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
@@ -51,7 +51,7 @@ extension Quack {
         
         open override func _respondWithDataAsync(method: Quack.HTTP.Method,
                                                  path: String,
-                                                 body: [String: Any],
+                                                 body: Quack.Body?,
                                                  headers: [String: String],
                                                  validStatusCodes: CountableRange<Int>,
                                                  requestModification: ((Quack.Request) -> (Quack.Request))?,
@@ -71,7 +71,7 @@ extension Quack {
         
         private func dataRequest(method: Quack.HTTP.Method,
                                  path: String,
-                                 body: [String: Any],
+                                 body: Quack.Body?,
                                  headers: [String: String],
                                  validStatusCodes: CountableRange<Int>,
                                  requestModification: ((Quack.Request) -> (Quack.Request))?) -> DataRequest {
@@ -87,12 +87,27 @@ extension Quack {
                 request = rmod(request)
             }
             
-            // transform request
+            // transform request to alamofire
             let completeURL = "\(url)\(request.uri)"
+            
+            var encoding = request.alamofireEncoding()
+            var parameters: Parameters = [:]
+            
+            switch body {
+            case let stringBody as StringBody:
+                encoding = stringBody.string
+                break
+            case let jsonBody as JSONBody:
+                parameters = jsonBody.json
+                break
+            default:
+                break
+            }
+            
             let httpRequest = self.manager.request(completeURL,
                                                    method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
-                                                   parameters: request.body,
-                                                   encoding: request.alamofireEncoding(),
+                                                   parameters: parameters,
+                                                   encoding: encoding,
                                                    headers: request.headers)
             
             // start reuest
@@ -122,6 +137,16 @@ extension Quack {
             return result
         }
         
+    }
+    
+}
+
+extension String: ParameterEncoding {
+    
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+        var request = try urlRequest.asURLRequest()
+        request.httpBody = data(using: .utf8, allowLossyConversion: false)
+        return request
     }
     
 }

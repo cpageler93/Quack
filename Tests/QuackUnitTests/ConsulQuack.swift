@@ -77,12 +77,8 @@ public class Consul: Quack.Client {
                          value: String) -> Quack.Result<Bool> {
         return respond(method: .put,
                        path: buildPath("/v1/kv/\(key)", withParams: ["dc" : "fra1"]),
-                       model: Bool.self,
-                       requestModification: { (request) -> (Quack.Request) in
-                        var newRequest = request
-                        newRequest.body = ["value": value]
-                        return newRequest
-        })
+                       body: Quack.StringBody(value),
+                       model: Bool.self)
     }
     
 }

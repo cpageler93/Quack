@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		5924DC9E207DFD59009139F8 /* QuackBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5924DC9D207DFD59009139F8 /* QuackBody.swift */; };
 		OBJ_100 /* QuackCustomParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* QuackCustomParser.swift */; };
 		OBJ_101 /* QuackError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* QuackError.swift */; };
 		OBJ_102 /* QuackHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* QuackHTTP.swift */; };
@@ -130,6 +131,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5924DC9D207DFD59009139F8 /* QuackBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuackBody.swift; sourceTree = "<group>"; };
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Quack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quack.swift; sourceTree = "<group>"; };
 		OBJ_11 /* QuackAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuackAlamofire.swift; sourceTree = "<group>"; };
@@ -318,7 +320,7 @@
 			path = ".build/checkouts/Alamofire--7888903134044690114/Source";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -327,7 +329,6 @@
 				OBJ_26 /* Dependencies */,
 				OBJ_56 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_56 /* Products */ = {
@@ -361,6 +362,7 @@
 				OBJ_14 /* QuackError.swift */,
 				OBJ_15 /* QuackHTTP.swift */,
 				OBJ_16 /* QuackModel.swift */,
+				5924DC9D207DFD59009139F8 /* QuackBody.swift */,
 				OBJ_17 /* QuackRequest.swift */,
 				OBJ_18 /* QuackResponse.swift */,
 			);
@@ -529,7 +531,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_56 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -644,6 +646,7 @@
 				OBJ_98 /* QuackAlamofire.swift in Sources */,
 				OBJ_99 /* QuackClient.swift in Sources */,
 				OBJ_100 /* QuackCustomParser.swift in Sources */,
+				5924DC9E207DFD59009139F8 /* QuackBody.swift in Sources */,
 				OBJ_101 /* QuackError.swift in Sources */,
 				OBJ_102 /* QuackHTTP.swift in Sources */,
 				OBJ_103 /* QuackModel.swift in Sources */,

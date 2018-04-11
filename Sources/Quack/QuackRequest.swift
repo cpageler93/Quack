@@ -23,10 +23,10 @@ public extension Quack {
         public var method: HTTP.Method
         public var uri: String
         public var headers: [String: String]
-        public var body: [String: Any]? = nil
+        public var body: Body? = nil
         public var encoding: Encoding = .url
         
-        public init(method: HTTP.Method, uri: String, headers: [String: String], body: [String: Any]) {
+        public init(method: HTTP.Method, uri: String, headers: [String: String], body: Body?) {
             self.method = method
             self.uri = uri
             self.headers = headers

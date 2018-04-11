@@ -19,6 +19,7 @@ import TLS
 internal typealias HTTPClient = Client
 internal typealias HTTPRequest = Request
 internal typealias HTTPMethod = HTTP.Method
+internal typealias HTTPBody = HTTP.Body
 
 extension Quack {
     
@@ -26,7 +27,7 @@ extension Quack {
         
         open override func _respondWithData(method: Quack.HTTP.Method,
                                               path: String,
-                                              body: [String : Any],
+                                              body: Quack.Body?,
                                               headers: [String : String],
                                               validStatusCodes: CountableRange<Int>,
                                               requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
@@ -69,11 +70,25 @@ extension Quack {
             for header in request.headers {
                 httpHeaders[HeaderKey(header.key)] = header.value
             }
+            
+            var requestBody: String = ""
+            switch body {
+            case let stringBody as StringBody:
+                requestBody = stringBody.string
+                break
+            case let jsonBody as JSONBody:
+                requestBody = JSON(jsonBody.json).rawString() ?? ""
+                break
+            default:
+                break
+            }
+            
+            
             let httpRequest = HTTPRequest(method: HTTPMethod(request.method.stringValue()),
                                           uri: request.uri,
                                           version: Version(major: 1, minor: 1),
                                           headers: httpHeaders,
-                                          body: Body(JSON(request.body ?? [:]).rawString() ?? ""))
+                                          body: HTTPBody(requestBody))
     
             // send request
             guard let httpResponse = try? client.respond(to: httpRequest) else {
@@ -95,7 +110,7 @@ extension Quack {
         
         open override func _respondWithDataAsync(method: Quack.HTTP.Method,
                                                  path: String,
-                                                 body: [String: Any],
+                                                 body: Quack.Body?,
                                                  headers: [String: String],
                                                  validStatusCodes: CountableRange<Int>,
                                                  requestModification: ((Quack.Request) -> (Quack.Request))?,

@@ -37,7 +37,7 @@ extension Quack {
         
         open func _respondWithData(method: Quack.HTTP.Method,
                                    path: String,
-                                   body: [String: Any],
+                                   body: Quack.Body?,
                                    headers: [String: String],
                                    validStatusCodes: CountableRange<Int>,
                                    requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
@@ -46,7 +46,7 @@ extension Quack {
         
         open func _respondWithDataAsync(method: Quack.HTTP.Method,
                                         path: String,
-                                        body: [String: Any],
+                                        body: Quack.Body?,
                                         headers: [String: String],
                                         validStatusCodes: CountableRange<Int>,
                                         requestModification: ((Quack.Request) -> (Quack.Request))?,
@@ -64,7 +64,7 @@ public extension Quack.ClientBase {
     
     public func respond<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                 path: String,
-                                                body: [String: Any] = [:],
+                                                body: Quack.Body? = nil,
                                                 headers: [String: String] = [:],
                                                 validStatusCodes: CountableRange<Int> = 200..<300,
                                                 parser: Quack.CustomModelParser? = nil,
@@ -86,7 +86,7 @@ public extension Quack.ClientBase {
 
     public func respondWithArray<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                          path: String,
-                                                         body: [String: Any] = [:],
+                                                         body: Quack.Body? = nil,
                                                          headers: [String: String] = [:],
                                                          validStatusCodes: CountableRange<Int> = 200..<300,
                                                          parser: Quack.CustomArrayParser? = nil,
@@ -108,7 +108,7 @@ public extension Quack.ClientBase {
 
     public func respondVoid(method: Quack.HTTP.Method = .get,
                             path: String,
-                            body: [String: Any] = [:],
+                            body: Quack.Body? = nil,
                             headers: [String: String] = [:],
                             validStatusCodes: CountableRange<Int> = 200..<300,
                             requestModification: ((Quack.Request) -> (Quack.Request))? = nil) -> Quack.Void {
@@ -134,7 +134,7 @@ public extension Quack.ClientBase {
     
     public func respondAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                      path: String,
-                                                     body: [String: Any] = [:],
+                                                     body: Quack.Body? = nil,
                                                      headers: [String: String] = [:],
                                                      validStatusCodes: CountableRange<Int> = 200..<300,
                                                      parser: Quack.CustomModelParser? = nil,
@@ -158,7 +158,7 @@ public extension Quack.ClientBase {
 
     public func respondWithArrayAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                               path: String,
-                                                              body: [String: Any] = [:],
+                                                              body: Quack.Body? = nil,
                                                               headers: [String: String] = [:],
                                                               validStatusCodes: CountableRange<Int> = 200..<300,
                                                               parser: Quack.CustomArrayParser? = nil,
@@ -182,7 +182,7 @@ public extension Quack.ClientBase {
 
     public func respondVoidAsync(method: Quack.HTTP.Method = .get,
                                  path: String,
-                                 body: [String: Any] = [:],
+                                 body: Quack.Body? = nil,
                                  headers: [String: String] = [:],
                                  validStatusCodes: CountableRange<Int> = 200..<300,
                                  requestModification: ((Quack.Request) -> (Quack.Request))? = nil,
