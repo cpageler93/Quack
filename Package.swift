@@ -3,7 +3,7 @@
 import PackageDescription
 
 #if os(Linux)
-let httpPackageDependency = Package.Dependency.package(url: "https://github.com/vapor/engine.git", from: "2.2.1")
+let httpPackageDependency = Package.Dependency.package(url: "https://github.com/vapor/engine.git", from: "3.0.0-rc.2")
 let httpTargetDependency = Target.Dependency.byNameItem(name: "HTTP")
 #else
 let httpPackageDependency = Package.Dependency.package(url: "https://github.com/Alamofire/Alamofire", from: "4.6.0")

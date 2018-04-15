@@ -8,18 +8,11 @@
 
 #if os(Linux)
 
-
 import Foundation
 import Result
 import SwiftyJSON
 import HTTP
-import Sockets
-import TLS
 
-internal typealias HTTPClient = Client
-internal typealias HTTPRequest = Request
-internal typealias HTTPMethod = HTTP.Method
-internal typealias HTTPBody = HTTP.Body
 
 extension Quack {
     
@@ -32,29 +25,25 @@ extension Quack {
                                               validStatusCodes: CountableRange<Int>,
                                               requestModification: ((Quack.Request) -> (Quack.Request))?) -> Quack.Result<Data> {
             guard let scheme = self.url.scheme,
-                let host = self.url.host,
-                let httpSocket = try? TCPInternetSocket(scheme: scheme,
-                                                        hostname: host,
-                                                        port: UInt16(self.url.port ?? 80)),
-                var client = try? BasicClient(httpSocket) as HTTPClient
+                let host = self.url.host
             else {
                 return .failure(.withType(.errorWithName("Failed to setup HTTP Socket")))
             }
-    
+            
+            // setup http client
+            let loop = MultiThreadedEventLoopGroup(numThreads: 1).next()
+            let httpClient: EventLoopFuture<HTTPClient>
             if scheme == "https" {
-                guard let newSocket = try? TCPInternetSocket(scheme: scheme,
-                                                             hostname: host,
-                                                             port: UInt16(self.url.port ?? 443)),
-                    let httpsSocket = try? TLS.InternetSocket(newSocket, Context(.client)),
-                    let httpsClient = try? BasicClient(httpsSocket)
-                else {
-                    return .failure(.withType(.errorWithName("Failed to setup HTTPS Socket")))
+                do {
+                    httpClient = try HTTPClient.connectWithTLS(hostname: host, port: url.port ?? 443, on: loop)
+                } catch let error {
+                    return .failure(.withType(.errorWithError(error)))
                 }
-                client = httpsClient
+            } else {
+                httpClient = HTTPClient.connect(hostname: host, port: url.port ?? 80, on: loop)
             }
     
             // create request
-
             var request = Quack.Request(method: method,
                                         uri: path,
                                         headers: headers,
@@ -66,44 +55,46 @@ extension Quack {
             }
             
             // transform request
-            var httpHeaders = [HeaderKey: String]()
+            var httpRequest = HTTPRequest(method: HTTPMethod.RAW(value: request.method.stringValue()),
+                                          url: URL(string: path)!)
+            httpRequest.headers.replaceOrAdd(name: .host, value: host)
+            httpRequest.headers.replaceOrAdd(name: .userAgent, value: "Quack")
+            
             for header in request.headers {
-                httpHeaders[HeaderKey(header.key)] = header.value
+                httpRequest.headers.replaceOrAdd(name: header.key, value: header.value)
             }
             
-            var requestBody: String = ""
             switch body {
             case let stringBody as StringBody:
-                requestBody = stringBody.string
+                httpRequest.body = HTTPBody(string: stringBody.string)
                 break
             case let jsonBody as JSONBody:
-                requestBody = JSON(jsonBody.json).rawString() ?? ""
+                httpRequest.body = HTTPBody(string: JSON(jsonBody.json).rawString() ?? "")
                 break
             default:
                 break
             }
             
-            
-            let httpRequest = HTTPRequest(method: HTTPMethod(request.method.stringValue()),
-                                          uri: request.uri,
-                                          version: Version(major: 1, minor: 1),
-                                          headers: httpHeaders,
-                                          body: HTTPBody(requestBody))
-    
-            // send request
-            guard let httpResponse = try? client.respond(to: httpRequest) else {
-                return .failure(.withType(.errorWithName("Failed to respond")))
-            }
-    
-            // transform response
-            let response = Response(statusCode: httpResponse.status.statusCode,
-                                    body: Data(bytes: httpResponse.body.bytes ?? []))
-            
+            let g = DispatchGroup()
+            g.enter()
             var result = Quack.Result<Data>.failure(.withType(.errorWithName("Failed handle client response")))
-            _handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
-                result = r
+            httpClient.flatMap(to: HTTPResponse.self) { client in
+                client.respond(to: httpRequest, on: loop)
+            }.do { httpResponse in
+                // transform response
+                let response = Response(statusCode: Int(httpResponse.status.code),
+                                        body: httpResponse.body.data)
+                
+                self._handleClientResponse(response, validStatusCodes: validStatusCodes) { r in
+                    result = r
+                    g.leave()
+                }
+            }.catch { error in
+                result = .failure(.withType(.errorWithError(error)))
+                g.leave()
             }
-    
+            
+            g.wait()
             return result
             
         }

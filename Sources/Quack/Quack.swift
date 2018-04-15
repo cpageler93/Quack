@@ -10,6 +10,8 @@
 @_exported import SwiftyJSON
 
 
+
+
 public typealias _QuackResult<T> = Result<T, Quack.Error>
 public typealias _QuackVoid = _QuackResult<Void>
 
