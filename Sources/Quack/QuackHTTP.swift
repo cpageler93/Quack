@@ -32,17 +32,11 @@ extension Quack {
             
             // setup http client
             let loop = MultiThreadedEventLoopGroup(numThreads: 1).next()
-            let httpClient: EventLoopFuture<HTTPClient>
-            if scheme == "https" {
-                do {
-                    httpClient = try HTTPClient.connectWithTLS(hostname: host, port: url.port ?? 443, on: loop)
-                } catch let error {
-                    return .failure(.withType(.errorWithError(error)))
-                }
-            } else {
-                httpClient = HTTPClient.connect(hostname: host, port: url.port ?? 80, on: loop)
-            }
-    
+            let isHTTPs = scheme == "https"
+            let httpScheme = isHTTPs ? HTTPScheme.https : HTTPScheme.http
+            let port = url.port ?? (isHTTPs ? 443 : 80)
+            let httpClient = HTTPClient.connect(scheme: httpScheme, hostname: host, port: port, on: loop)
+            
             // create request
             var request = Quack.Request(method: method,
                                         uri: path,
@@ -57,7 +51,6 @@ extension Quack {
             // transform request
             var httpRequest = HTTPRequest(method: HTTPMethod.RAW(value: request.method.stringValue()),
                                           url: URL(string: path)!)
-            httpRequest.headers.replaceOrAdd(name: .host, value: host)
             httpRequest.headers.replaceOrAdd(name: .userAgent, value: "Quack")
             
             for header in request.headers {
@@ -79,7 +72,7 @@ extension Quack {
             g.enter()
             var result = Quack.Result<Data>.failure(.withType(.errorWithName("Failed handle client response")))
             httpClient.flatMap(to: HTTPResponse.self) { client in
-                client.respond(to: httpRequest, on: loop)
+                client.send(httpRequest)
             }.do { httpResponse in
                 // transform response
                 let response = Response(statusCode: Int(httpResponse.status.code),
