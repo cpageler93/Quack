@@ -96,30 +96,27 @@ extension Quack {
 
             let httpRequest: DataRequest
 
-            switch body {
-            case let dataBody as DataBody:
+            if let dataBody = body as? DataBody {
                 httpRequest = self.manager.upload(dataBody.data,
                                                   to: completeURL,
                                                   method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
                                                   headers: request.headers)
-            case let stringBody as StringBody:
-                encoding = stringBody.string
+            } else {
+                switch body {
+                case let stringBody as StringBody:
+                    encoding = stringBody.string
+                    break
+                case let jsonBody as JSONBody:
+                    parameters = jsonBody.json
+                    break
+                default:
+                    break
+                }
                 httpRequest =  self.manager.request(completeURL,
                                                     method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
                                                     parameters: parameters,
                                                     encoding: encoding,
                                                     headers: request.headers)
-                break
-            case let jsonBody as JSONBody:
-                parameters = jsonBody.json
-                httpRequest =  self.manager.request(completeURL,
-                                                    method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
-                                                    parameters: parameters,
-                                                    encoding: encoding,
-                                                    headers: request.headers)
-                break
-            default:
-                abort()
             }
             
             // start reuest
