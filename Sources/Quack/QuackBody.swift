@@ -6,6 +6,9 @@
 //
 
 
+import Foundation
+
+
 public protocol _QuackBody { }
 
 
@@ -31,6 +34,16 @@ public extension Quack {
             self.json = json
         }
         
+    }
+
+    public struct DataBody: Quack.Body {
+
+        public var data: Data
+
+        public init(_ data: Data) {
+            self.data = data
+        }
+
     }
     
 }

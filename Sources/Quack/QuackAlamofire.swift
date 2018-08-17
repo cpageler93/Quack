@@ -93,23 +93,34 @@ extension Quack {
             
             var encoding = request.alamofireEncoding()
             var parameters: Parameters = [:]
-            
+
+            let httpRequest: DataRequest
+
             switch body {
+            case let dataBody as DataBody:
+                httpRequest = self.manager.upload(dataBody.data,
+                                                  to: completeURL,
+                                                  method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
+                                                  headers: request.headers)
             case let stringBody as StringBody:
                 encoding = stringBody.string
+                httpRequest =  self.manager.request(completeURL,
+                                                    method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
+                                                    parameters: parameters,
+                                                    encoding: encoding,
+                                                    headers: request.headers)
                 break
             case let jsonBody as JSONBody:
                 parameters = jsonBody.json
+                httpRequest =  self.manager.request(completeURL,
+                                                    method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
+                                                    parameters: parameters,
+                                                    encoding: encoding,
+                                                    headers: request.headers)
                 break
             default:
-                break
+                abort()
             }
-            
-            let httpRequest = self.manager.request(completeURL,
-                                                   method: HTTPMethod(rawValue: request.method.stringValue()) ?? .get,
-                                                   parameters: parameters,
-                                                   encoding: encoding,
-                                                   headers: request.headers)
             
             // start reuest
             httpRequest.resume()
