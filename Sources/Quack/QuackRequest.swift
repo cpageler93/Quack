@@ -13,7 +13,7 @@ import Alamofire
 
 public extension Quack {
     
-    public struct Request {
+    struct Request {
         
         public enum Encoding {
             case url

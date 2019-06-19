@@ -10,7 +10,7 @@ import Foundation
 
 public extension Quack {
     
-    public struct Error: Swift.Error {
+    struct Error: Swift.Error {
         
         public let type: ErrorType
         public let userInfo: [AnyHashable: Any]
@@ -32,7 +32,7 @@ public extension Quack {
         
     }
     
-    public class HTTP {
+    class HTTP {
         
         public enum Method {
             

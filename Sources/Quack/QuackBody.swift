@@ -14,9 +14,9 @@ public protocol _QuackBody { }
 
 public extension Quack {
 
-    public typealias Body = _QuackBody
+    typealias Body = _QuackBody
     
-    public struct StringBody: Quack.Body {
+    struct StringBody: Quack.Body {
         
         public var string: String
         
@@ -26,7 +26,7 @@ public extension Quack {
         
     }
     
-    public struct JSONBody: Quack.Body {
+    struct JSONBody: Quack.Body {
         
         public var json: [String: Any]
         
@@ -36,7 +36,7 @@ public extension Quack {
         
     }
 
-    public struct DataBody: Quack.Body {
+    struct DataBody: Quack.Body {
 
         public var data: Data
 
