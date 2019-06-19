@@ -62,7 +62,7 @@ extension Quack {
 
 public extension Quack.ClientBase {
     
-    public func respond<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+    func respond<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                 path: String,
                                                 body: Quack.Body? = nil,
                                                 headers: [String: String] = [:],
@@ -84,7 +84,7 @@ public extension Quack.ClientBase {
         }
     }
 
-    public func respondWithArray<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+    func respondWithArray<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                          path: String,
                                                          body: Quack.Body? = nil,
                                                          headers: [String: String] = [:],
@@ -106,7 +106,7 @@ public extension Quack.ClientBase {
         }
     }
 
-    public func respondVoid(method: Quack.HTTP.Method = .get,
+    func respondVoid(method: Quack.HTTP.Method = .get,
                             path: String,
                             body: Quack.Body? = nil,
                             headers: [String: String] = [:],
@@ -132,7 +132,7 @@ public extension Quack.ClientBase {
 
 public extension Quack.ClientBase {
     
-    public func respondAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+    func respondAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                      path: String,
                                                      body: Quack.Body? = nil,
                                                      headers: [String: String] = [:],
@@ -156,7 +156,7 @@ public extension Quack.ClientBase {
         }
     }
 
-    public func respondWithArrayAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
+    func respondWithArrayAsync<Model: Quack.DataModel>(method: Quack.HTTP.Method = .get,
                                                               path: String,
                                                               body: Quack.Body? = nil,
                                                               headers: [String: String] = [:],
@@ -180,7 +180,7 @@ public extension Quack.ClientBase {
         }
     }
 
-    public func respondVoidAsync(method: Quack.HTTP.Method = .get,
+    func respondVoidAsync(method: Quack.HTTP.Method = .get,
                                  path: String,
                                  body: Quack.Body? = nil,
                                  headers: [String: String] = [:],
@@ -209,7 +209,7 @@ public extension Quack.ClientBase {
 
 public extension Quack.ClientBase {
     
-    public func buildPath(_ path: String, withParams params: [String: String]) -> String {
+    func buildPath(_ path: String, withParams params: [String: String]) -> String {
         var urlComponents = URLComponents()
         urlComponents.path = path
         
@@ -233,7 +233,7 @@ public extension Quack.ClientBase {
 
 public extension Quack.ClientBase {
 
-    public func _handleClientResponse(_ response: Quack.Response?,
+    func _handleClientResponse(_ response: Quack.Response?,
                                       validStatusCodes: CountableRange<Int>,
                                       completion: @escaping (Quack.Result<Data>) -> (Void)) {
         guard let response = response else {

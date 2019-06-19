@@ -10,7 +10,7 @@ import Foundation
 
 public extension Quack {
     
-    public struct Response {
+    struct Response {
         
         public var statusCode: Int
         public var body: Data? = nil

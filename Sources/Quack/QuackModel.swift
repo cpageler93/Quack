@@ -12,8 +12,8 @@ import SwiftyJSON
 
 public extension Quack {
     
-    public typealias DataModel = _QuackDataModel
-    public typealias Model = _QuackModel
+    typealias DataModel = _QuackDataModel
+    typealias Model = _QuackModel
     
 }
 

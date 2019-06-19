@@ -12,8 +12,8 @@ import SwiftyJSON
 
 public extension Quack {
     
-    public typealias CustomArrayParser = _QuackCustomArrayParser
-    public typealias CustomModelParser = _QuackCustomModelParser
+    typealias CustomArrayParser = _QuackCustomArrayParser
+    typealias CustomModelParser = _QuackCustomModelParser
     
 }
 
@@ -63,7 +63,7 @@ public extension Quack {
     ///     "attr3": "baz",
     ///   }
     /// ]
-    public class ArrayParserByIgnoringDictionaryKeys {
+    class ArrayParserByIgnoringDictionaryKeys {
         
         public init() {}
         
